@@ -39,14 +39,14 @@ Our goal is to provide a flexible development environment that feels reasonably 
 
 The settings file is organized into logical sections:
 
-- **Formatting and Linting Controls**: ESLint runs only on manual save, not auto-save
-- **Language-Specific Settings**: Explicitly defines Prettier formatter to be used for JavaScript, TypeScript, and JSON
-- **Import Handling**: Settings for import path handling and updates when files move
-- **TypeScript Configuration**: Uses project's TypeScript version instead of VS Code's built-in one
-- **Search Optimization**: Excludes build directories and node_modules from search and file watching
-- **Cross-Platform Compatibility**: Uses LF line endings and enforces final newlines
-- **Code Style**: Visual guides and whitespace handling
-- **Electron-Specific Settings**: File types for ESLint validation
+- **Formatting and Linting Controls**: ESLint fixes run only on explicit saves ("explicit" setting), not auto-save; Prettier is set as the default manual formatter
+- **Language-Specific Settings**: Explicitly defines Prettier formatter to be used for JavaScript, TypeScript, and JSON files through language-specific overrides
+- **Import Handling**: Controls JavaScript/TypeScript `import` statements—prompts before updating paths when files move and prefers relative paths (`../components/Button`)
+- - **TypeScript Configuration**: Uses project's TypeScript version from node_modules instead of VS Code's built-in one, and enables type checking in JavaScript files without requiring explicit `@ts-check` comments
+- **Search Optimization**: Excludes large directories (node_modules, dist, out, .webpack) from search results and file watching—valuable for reducing CPU/memory when developing Electron projects with VS Code
+- **Cross-Platform Compatibility**: Standardizes on LF line endings ("\n") across all platforms and ensures all files end with a newline character to prevent Git diff issues
+- **Code Style**: Provides visual guide rulers at column 100 for line length and automatically removes trailing whitespace
+- **Electron-Specific Settings**: Configures ESLint to validate JavaScript, TypeScript, JSX, and TSX files
 
 ### Debugging Configuration (launch.json)
 
