@@ -1,5 +1,5 @@
 {
-  // VS CODE EXTENSIONS CONFIGURATION FOR ELECTRON FORGE PROJECT
+  // VS CODE EXTENSIONS RECOMMENDATIONS CONFIGURATION FOR ELECTRON FORGE PROJECT
   // PURPOSE: Recommends VS Code extensions to standardize and enhance the development
   // experience across project developers
   // SECURITY IMPACT FOR DEVELOPERS: Major - Recommends installation of third-party
@@ -81,7 +81,7 @@
 
     // Markdown All in One - Complete markdown support
     // Provides shortcuts, auto-preview, and formatting for markdown
-    // Essential for maintaining project documentation
+    // Valuable for displaying Markdown ([FILE-NAME].md) project documentation
     "yzhang.markdown-all-in-one",
 
     // Markdown Mermaid - Diagram support in markdown
