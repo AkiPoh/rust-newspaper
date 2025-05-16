@@ -20,7 +20,7 @@ This directory contains VS Code configurations optimized for Electron Forge proj
 | **`tasks.json`**      | Potentially Significant   | Potentially Significant  |
 | **`extensions.json`** | Major                     | Potentially Significant  |
 
-Each configuration file beginning includes security considerations documentation addressing both developer and end-user impacts. Refer to those for more comprehensive information of such.
+Each configuration file includes security considerations documentation addressing both developer and end-user impacts. Refer to those for more comprehensive information.
 
 ## Development Philosophy
 
@@ -29,9 +29,9 @@ This project balances project developer VS Code configuration consistency with i
 - **Harmonized Essentials**: Core tooling and formatting rules help ensure code style consistency and quality
 - **Developer Autonomy**: Preferences like auto-save vs. manual save are left to individual choice
 - **Opt-in Extensions**: Recommended extensions enhance the experience but remain optional
-- **Manual Formatting**: Code formatting is triggered manually (Prettier), or on manual save (ESLInt), giving developers control over when changes occur
+- **Manual Formatting**: Code formatting is triggered manually (Prettier), or on manual save (ESLint), giving developers control over when changes occur
 
-Our goal is to provide a flexible development environment that feels reasonably natural to each develeoper while maintaining consistency where it most matters and ensuring our project is easy to get started up with even by more inexperienced developers.
+Our aim ist to establish a development environment that balances flexibility and familiarity for each developer, while ensuring consistent standards where essential and a low barrier to entry for newcomers.
 
 ## Configuration Details
 
@@ -44,7 +44,7 @@ The settings file is organized into logical sections:
 - **Formatting and Linting Controls**: ESLint fixes run only on explicit saves ("explicit" setting), not auto-save; Prettier is set as the default manual formatter
 - **Language-Specific Settings**: Explicitly defines Prettier formatter to be used for JavaScript, TypeScript, and JSON files through language-specific overrides
 - **Import Handling**: Controls JavaScript/TypeScript `import` statements—prompts before updating paths when files move and prefers relative paths (`../components/Button`)
-- - **TypeScript Configuration**: Uses project's TypeScript version from node_modules instead of VS Code's built-in one, and enables type checking in JavaScript files without requiring explicit `@ts-check` comments
+- **TypeScript Configuration**: Uses project's TypeScript version from node_modules instead of VS Code's built-in one, and enables type checking in JavaScript files without requiring explicit `@ts-check` comments
 - **Search Optimization**: Excludes large directories (node_modules, dist, out, .webpack) from search results and file watching—valuable for reducing CPU/memory when developing Electron projects with VS Code
 - **Cross-Platform Compatibility**: Standardizes on LF line endings ("\n") across all platforms and ensures all files end with a newline character to prevent Git diff issues
 - **Code Style**: Provides visual guide rulers at column 100 for line length and automatically removes trailing whitespace
@@ -70,13 +70,13 @@ The tasks.json file defines two tasks that support the development workflow:
 
 ### Recommended Extensions (`extensions.json`)
 
-The extensions.json file provides the recommended extension IDs for VS Code, so that the developer can choose install or enable the recommended extensions within VS Code.
+The extensions.json file provides the recommended extension IDs for VS Code, so that the developer can choose to install or enable the recommended extensions within VS Code.
 
-- **Categorically Organised**: Recommendations structured six categories (Core Development, TypeScript/JavaScript, Source Control, Documentation, Web Technologies, Quality of Life)—each addressing specific needs of Electron development
-- **Purpose of Each Extension is Documented**: Uses comments to explain each extension's purpose, allowing for developers to make educated decisions if to install such extensions
-- **Opt-in Flexibility**: VS Code by default requires the user to install the recommended extension; VS Code by default should not install the extensions automatically
+- **Categorically Organized**: Recommendations structured into six categories (Core Development, TypeScript/JavaScript, Source Control, Documentation, Web Technologies, Quality of Life)—each addressing specific needs of Electron development
+- **Purpose of Each Extension is Documented**: Uses comments to explain each extension's purpose, allowing for developers to make educated decisions about installing such extensions
+- **Opt-in Flexibility**: VS Code by default requires the user to install the recommended extensions; VS Code by default should not install the extensions automatically
 
-This file represents one of the more security wise questionable component of the VS Code configuration, as it introduces third-party extensions with VS Code privileges into the VS Code development environment. Though noting that these are opt-in extensions, so no hidden actions that could compromise the device should take place by recommendations made by `extensions.json`, requiring the developer to choose to download and enable such extensions.
+This file represents one of the more security-sensitive components of the VS Code configuration, as it introduces third-party extensions with VS Code privileges into the development environment. This security concern is slightly mitigated by the opt-in nature of these extensions—no hidden downloads of extensions should occur merely from the recommendations made in extensions.json. The developer must explicitly choose to download and enable each extension, maintaining control over what each developer chooses to install based on their personal risk analysis.
 
 ## Recommended Extensions
 
