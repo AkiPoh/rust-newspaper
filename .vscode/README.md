@@ -54,7 +54,7 @@ The settings file is organized into logical sections:
 
 The debugging setup orchestrates a coordinated flow for Electron's dual processes:
 
-- **Activation & Configuration**: When launched (F5), first prompts for `debugPort` (9222-9555) and `nodeEnv` values—creating the debug session configuration dynamically without requiring file edits
+- **Activation & Configuration**: When launched (F5), first prompts for `debugPort` (9222, 9333, 9444, 9555) and `nodeEnv` values—creating the debug session configuration dynamically without requiring file edits
 - **Build & Preparation**: Automatically runs the `"preLaunchTask": "npm: build-dev"` before launching the debugger, ensuring fresh compilation of TypeScript code
 - **Main Process Launch**: Starts Electron with Node.js debugging attached, passing the selected port via `"args": [".", "--remote-debugging-port=${input:debugPort}"]` to bridge the processes
 - **Renderer Process Connection**: Automatically connects Chrome DevTools to the port opened by the main process—the connection is implicit but the debugging is fully synchronized
