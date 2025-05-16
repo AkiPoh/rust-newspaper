@@ -104,7 +104,7 @@
     // Supporting Electron's HTML/CSS foundations
     // =====================================================================
 
-    // Web Validator - HTML/CSS validation
+    // W3C Web Validator - HTML/CSS validation
     // Validates web content against standards
     // Important for ensuring UI accessibility and correctness
     "CelianRiboulet.webvalidator",

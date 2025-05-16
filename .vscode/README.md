@@ -84,12 +84,16 @@ Our `extensions.json` includes carefully selected tools organized by purpose:
 
 ### Core Development
 
-- **ESLint**: Code quality enforcement with integrated fixing on manual save, (configured by `settings.json`)
+- **ESLint**: Code quality enforcement with automatic fixing on manual save, (configured by `settings.json`)
 - **Prettier**: Consistent code formatting when manually triggered, (configured by `settings.json`)
 
 ### TypeScript/JavaScript Productivity
 
-- Error Lens, TypeScript Importer, Pretty TypeScript Errors, Path Intellisense, NPM Intellisense
+- **Error Lens**: Inline error highlighting directly in the editor
+- **TypeScript Importer**: Automatic import management for faster development
+- **Pretty TypeScript Errors**: Improved readability of TypeScript error messages
+- **Path Intellisense**: Path autocompletion for more accurate imports
+- **NPM Intellisense**: Package autocompletion for external dependencies
 
 ### Source Control & Collaboration
 
@@ -97,15 +101,18 @@ Our `extensions.json` includes carefully selected tools organized by purpose:
 
 ### Documentation & Markdown Support
 
-- Markdown All in One, Markdown Mermaid, Markdown PDF, PDF Viewer
+- **Markdown All in One**: Complete markdown editing with shortcuts and preview
+- **Markdown Mermaid**: Diagram support in markdown documentation
+- **Markdown PDF**: Export markdown files to PDF for distribution
+- **PDF Viewer**: View PDF files directly within VS Code
 
 ### Web Technologies
 
-- **Web Validator**: HTML/CSS validation for Electron's web-based UI
+- **W3C Web Validator**: HTML/CSS validation for Electron's web-based UI
 
 ### Quality of Life
 
-- **Material Icon Theme**: More distinct visual file type identification icons for VS Code, to achieve easier navigation
+- **Material Icon Theme**: More distinct visual file type identification icons for VS Code to achieve easier navigation
 
 ## Development Workflow
 
