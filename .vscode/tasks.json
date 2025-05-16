@@ -1,7 +1,13 @@
 {
-  // VS Code tasks configuration for Electron Forge project
-  // Purpose: Defines build tasks referenced by debugging configurations
-  // Security: No sensitive operations in tasks
+  // VS CODE TASKS CONFIGURATION FOR ELECTRON FORGE PROJECT
+  // PURPOSE: Defines automated build tasks and lint operations accessible within
+  // the VS Code environment
+  // SECURITY IMPACT FOR DEVELOPERS: Potentially Significant - Executes scripts when triggered
+  // that can affect the development environment; introduces potential risks if tasks are
+  // modified or additional high-privilege tasks are added over time
+  // SECURITY IMPACT FOR APPLICATION END-USERS: Potentially Significant - Potentially could be used
+  // for purposes that affect the end-user application
+
   "version": "2.0.0",
   "tasks": [
     {

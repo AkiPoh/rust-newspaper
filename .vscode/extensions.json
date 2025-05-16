@@ -1,8 +1,20 @@
 {
-  // VS Code Extensions Configuration for Rust Newspaper project
-  // Purpose: Provides recommended extensions for ideal development experience
-  // Security impact: Potentially significant for developers who install these
-  // third-party extensions; no likely impact for end-users of the application
+  // VS CODE EXTENSIONS CONFIGURATION FOR ELECTRON FORGE PROJECT
+  // PURPOSE: Recommends VS Code extensions to standardize and enhance the development
+  // experience across project developers
+  // SECURITY IMPACT FOR DEVELOPERS: Major - Recommends installation of third-party
+  // extensions that run with VS Code privileges, have access to workspace files, and may
+  // have wider developer system security impacts; represents a trust decision for each extension
+  // with open-ended vulnerability potential through the extension supply chain
+  // SECURITY IMPACT FOR APPLICATION END-USERS: Potentially Significant - While extensions
+  // themselves aren't included in builds, extensions such as code quality tools like ESLint may
+  // indirectly affect application security through affecting coding standards and could
+  // potentially introduce vulnerabilities that affect end-user application
+  // SECURITY RATIONALE: These extensions provide substantial development efficiency and
+  // code quality benefits that currently outweigh potential risks; current priorities don't justify
+  // comprehensive security review of each extension. We rely on VS Code marketplace vetting and
+  // extension popularity as risk mitigation. Developers should consider their risk profile
+  // before installing suggested extensions
 
   // Extensions recommended for this workspace
   // VSCode will prompt to install these automatically when opening the project

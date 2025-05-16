@@ -1,7 +1,14 @@
 {
-  // VS Code launch.json for Electron application debugging
-  // Purpose: Enable comprehensive debugging of both Electron processes
-  // Security note: For local development only - debug ports are not secured
+  // VS CODE LAUNCH CONFIGURATION FOR ELECTRON FORGE PROJECT
+  // PURPOSE: Enables comprehensive debugging capabilities for both Electron main and renderer
+  // processes, with configurable ports and environments
+  // SECURITY IMPACT FOR DEVELOPERS: Potentially Significant - Intentionally opens debug ports
+  // (9222-9555) locally and grants execution control, but only when debugging is explicitly
+  // activated through VS Code's Run & Debug functionality (F5)
+  // SECURITY IMPACT FOR APPLICATION END-USERS: Minimal - These configurations should have no
+  // impact on compiled applications as launch.json is strictly a VS Code development configuration
+  // file that is never included in builds distributed to end-users
+
   "version": "0.2.0",
 
   // User configurable options for debugging flexibility
@@ -9,7 +16,7 @@
     {
       "id": "debugPort",
       "type": "pickString",
-      "default": "9222",  // Standard Chrome DevTools protocol port
+      "default": "9222", // Standard Chrome DevTools protocol port
       "description": "Port for renderer process debugging",
       "options": ["9222", "9333", "9444", "9555"]
     },

@@ -1,12 +1,12 @@
 {
-// VS CODE WORKSPACE SETTINGS FOR ELECTRON FORGE PROJECT
-// PURPOSE: Pragmatically standardise VS Code behavior, code style, and TypeScript validation
-// across developer environments
-// SECURITY IMPACT FOR DEVELOPERS: Potentially Significant - Affects VS Code behavior and code
-// validation; also affects some VS Code extensions within project workspace
-// SECURITY IMPACT FOR APPLICATION END-USERS: Potentially Significant - Significantly indirectly
-// affects end-user application, through things such as code styling and validation settings
-// configured for primary development tooling (VS Code)
+  // VS CODE WORKSPACE SETTINGS FOR ELECTRON FORGE PROJECT
+  // PURPOSE: Pragmatically standardise VS Code behavior, code style, and TypeScript validation
+  // across developer environments
+  // SECURITY IMPACT FOR DEVELOPERS: Potentially Significant - Affects VS Code behavior and code
+  // validation; also affects some VS Code extensions within project workspace
+  // SECURITY IMPACT FOR APPLICATION END-USERS: Potentially Significant - Significantly indirectly
+  // affects end-user application, through things such as code styling and validation settings
+  // configured for primary development tooling (VS Code)
 
   // =====================================================================
   // FORMATTING AND LINTING CONTROLS
