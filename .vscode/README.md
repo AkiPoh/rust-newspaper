@@ -4,21 +4,21 @@
 
 This directory contains VS Code configurations optimized for Electron Forge project development:
 
-| File                | Purpose                                                  |
-| ------------------- | -------------------------------------------------------- |
-| **settings.json**   | Editor behavior and project-specific settings            |
-| **launch.json**     | Debugging configurations for main and renderer processes |
-| **tasks.json**      | Build and validation task definitions                    |
-| **extensions.json** | Recommended extensions for development                   |
+| File                  | Purpose                                                  |
+| --------------------- | -------------------------------------------------------- |
+| **`settings.json`**   | Editor behavior and project-specific settings            |
+| **`launch.json`**     | Debugging configurations for main and renderer processes |
+| **`tasks.json`**      | Build and validation task definitions                    |
+| **`extensions.json`** | Recommended extensions for development                   |
 
 ## Security Considerations
 
-| File                | Developer Security Impact | End-User Security Impact |
-| ------------------- | ------------------------- | ------------------------ |
-| **settings.json**   | Potentially Significant   | Potentially Significant  |
-| **launch.json**     | Potentially Significant   | Minimal                  |
-| **tasks.json**      | Potentially Significant   | Potentially Significant  |
-| **extensions.json** | Major                     | Potentially Significant  |
+| File                  | Developer Security Impact | End-User Security Impact |
+| --------------------- | ------------------------- | ------------------------ |
+| **`settings.json`**   | Potentially Significant   | Potentially Significant  |
+| **`launch.json`**     | Potentially Significant   | Minimal                  |
+| **`tasks.json`**      | Potentially Significant   | Potentially Significant  |
+| **`extensions.json`** | Major                     | Potentially Significant  |
 
 Each configuration file beginning includes security considerations documentation addressing both developer and end-user impacts. Refer to those for more comprehensive information of such.
 
@@ -37,7 +37,7 @@ Our goal is to provide a flexible development environment that feels reasonably 
 
 This section bridges the gap between "here are some files" and "here's how to effectively develop with them," allowing newcomers to begin understanding the reasoning behind decisions while quickly giving experienced devs the technical details they need to work productively.
 
-### Editor Settings (settings.json)
+### Editor Settings (`settings.json`)
 
 The settings file is organized into logical sections:
 
@@ -50,7 +50,7 @@ The settings file is organized into logical sections:
 - **Code Style**: Provides visual guide rulers at column 100 for line length and automatically removes trailing whitespace
 - **Electron-Specific Settings**: Configures ESLint to validate JavaScript, TypeScript, JSX, and TSX files
 
-### Debugging Configuration (launch.json)
+### Debugging Configuration (`launch.json`)
 
 The debugging setup orchestrates a coordinated flow for Electron's dual processes:
 
@@ -61,21 +61,31 @@ The debugging setup orchestrates a coordinated flow for Electron's dual processe
 - **Source Resolution**: Maps compiled code back to source via `"resolveSourceMapLocations"` and `"sourceMapPathOverrides"` configurations that understand webpack's bundling approach
 - **Synchronized Control Flow**: When using "Debug All Processes," stopping debugging in one process (`"stopAll": true`) stops the entire application—essential for clean debugging sessions
 
-### Build Tasks (tasks.json)
+### Build Tasks (`tasks.json`)
 
 The tasks.json file defines two tasks that support the development workflow:
 
-- **npm: build-dev**: Created specifically to be triggered by launch.json's `"preLaunchTask": "npm: build-dev"` reference—runs the application in development mode and continues monitoring TypeScript compilation in the background so debugging can attach cleanly
-- **npm: lint**: Provides code quality checking but isn't automatically part of the debug flow—remains available for manual execution when developers want to validate their code
+- **`npm: build-dev`**: Created specifically to be triggered by launch.json's `"preLaunchTask": "npm: build-dev"` reference—runs the application in development mode and continues monitoring TypeScript compilation in the background so debugging can attach cleanly
+- **`npm: lint`**: Provides code quality checking but isn't automatically part of the debug flow—remains available for manual execution when developers want to validate their code
+
+### Recommended Extensions (`extensions.json`)
+
+The extensions.json file provides the recommended extension IDs for VS Code, so that the developer can choose install or enable the recommended extensions within VS Code.
+
+- **Categorically Organised**: Recommendations structured six categories (Core Development, TypeScript/JavaScript, Source Control, Documentation, Web Technologies, Quality of Life)—each addressing specific needs of Electron development
+- **Purpose of Each Extension is Documented**: Uses comments to explain each extension's purpose, allowing for developers to make educated decisions if to install such extensions
+- **Opt-in Flexibility**: VS Code by default requires the user to install the recommended extension; VS Code by default should not install the extensions automatically
+
+This file represents one of the more security wise questionable component of the VS Code configuration, as it introduces third-party extensions with VS Code privileges into the VS Code development environment. Though noting that these are opt-in extensions, so no hidden actions that could compromise the device should take place by recommendations made by `extensions.json`, requiring the developer to choose to download and enable such extensions.
 
 ## Recommended Extensions
 
-Our extensions.json includes carefully selected tools organized by purpose:
+Our `extensions.json` includes carefully selected tools organized by purpose:
 
 ### Core Development
 
-- **ESLint**: Code quality enforcement with integrated fixing on manual save
-- **Prettier**: Consistent code formatting when manually triggered
+- **ESLint**: Code quality enforcement with integrated fixing on manual save, (configured by `settings.json`)
+- **Prettier**: Consistent code formatting when manually triggered, (configured by `settings.json`)
 
 ### TypeScript/JavaScript Productivity
 
@@ -95,7 +105,7 @@ Our extensions.json includes carefully selected tools organized by purpose:
 
 ### Quality of Life
 
-- **Material Icon Theme**: Visual file type identification for easier navigation
+- **Material Icon Theme**: More distinct visual file type identification icons for VS Code, to achieve easier navigation
 
 ## Development Workflow
 
@@ -103,7 +113,7 @@ Our extensions.json includes carefully selected tools organized by purpose:
 
 This project uses manual code formatting to give developers control:
 
-1. Format code with: `Shift+Alt+F`
+1. Format code with Prettier: `Shift+Alt+F`
 2. ESLint fixes: Run on explicit saves only (`Ctrl+S`)
 
 ### Debugging
