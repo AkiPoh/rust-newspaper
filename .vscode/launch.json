@@ -3,7 +3,7 @@
   // PURPOSE: Enables comprehensive debugging capabilities for both Electron main and renderer
   // processes, with configurable ports and environments
   // SECURITY IMPACT FOR DEVELOPERS: Potentially Significant - Intentionally opens debug ports
-  // (9222-9555) locally and grants execution control, but only when debugging is explicitly
+  // (9222, 9333, 9444, 9555) locally and grants execution control, but only when debugging is explicitly
   // activated through VS Code's Run & Debug functionality (F5)
   // SECURITY IMPACT FOR APPLICATION END-USERS: Minimal - These configurations should have no
   // impact on compiled applications as launch.json is strictly a VS Code development configuration

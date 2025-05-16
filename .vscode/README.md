@@ -35,6 +35,8 @@ Our goal is to provide a flexible development environment that feels reasonably 
 
 ## Configuration Details
 
+This section bridges the gap between "here are some files" and "here's how to effectively develop with them," allowing newcomers to begin understanding the reasoning behind decisions while quickly giving experienced devs the technical details they need to work productively.
+
 ### Editor Settings (settings.json)
 
 The settings file is organized into logical sections:
@@ -50,19 +52,21 @@ The settings file is organized into logical sections:
 
 ### Debugging Configuration (launch.json)
 
-The debugging setup provides flexible options:
+The debugging setup orchestrates a coordinated flow for Electron's dual processes:
 
-- **User-Configurable Settings**: Customizable debug ports (9222-9555) and Node environments
-- **Main Process Debugging**: Node.js configuration for the Electron main process
-- **Renderer Process Debugging**: Chrome DevTools configuration for the UI
-- **Combined Configuration**: "Debug All Processes" option for full application debugging
+- **Activation & Configuration**: When launched (F5), first prompts for `debugPort` (9222-9555) and `nodeEnv` values—creating the debug session configuration dynamically without requiring file edits
+- **Build & Preparation**: Automatically runs the `"preLaunchTask": "npm: build-dev"` before launching the debugger, ensuring fresh compilation of TypeScript code
+- **Main Process Launch**: Starts Electron with Node.js debugging attached, passing the selected port via `"args": [".", "--remote-debugging-port=${input:debugPort}"]` to bridge the processes
+- **Renderer Process Connection**: Automatically connects Chrome DevTools to the port opened by the main process—the connection is implicit but the debugging is fully synchronized
+- **Source Resolution**: Maps compiled code back to source via `"resolveSourceMapLocations"` and `"sourceMapPathOverrides"` configurations that understand webpack's bundling approach
+- **Synchronized Control Flow**: When using "Debug All Processes," stopping debugging in one process (`"stopAll": true`) stops the entire application—essential for clean debugging sessions
 
 ### Build Tasks (tasks.json)
 
-Available automated tasks:
+The tasks.json file defines two tasks that support the development workflow:
 
-- **npm: build-dev**: Primary build task used by the debugger to prepare the application
-- **npm: lint**: Runs ESLint on TypeScript files for code quality checks
+- **npm: build-dev**: Created specifically to be triggered by launch.json's `"preLaunchTask": "npm: build-dev"` reference—runs the application in development mode and continues monitoring TypeScript compilation in the background so debugging can attach cleanly
+- **npm: lint**: Provides code quality checking but isn't automatically part of the debug flow—remains available for manual execution when developers want to validate their code
 
 ## Recommended Extensions
 
