@@ -1,0 +1,147 @@
+{
+  // VSCode launch.json for Electron application debugging
+  // Purpose: Enable comprehensive debugging of both Electron processes
+  // Security note: For local development only - debug ports are not secured
+  "version": "0.2.0",
+
+  // =====================================================================
+  // USER CONFIGURABLE OPTIONS
+  // Enable flexible configuration without editing launch.json directly
+  // Maintains audit trail as all selections are logged in debug console
+  // =====================================================================
+  "inputs": [
+    {
+      "id": "debugPort",
+      "type": "pickString",
+      "default": "9222", // Standard Chrome DevTools protocol port
+      "description": "Port for renderer process debugging",
+      "options": ["9222", "9333", "9444", "9555"]
+      // Multiple options prevent port conflicts when running concurrent instances
+      // Default is industry standard for Chrome debugging protocol
+    },
+    {
+      "id": "nodeEnv",
+      "type": "pickString",
+      "default": "development",
+      "description": "Node environment",
+      "options": ["development", "staging", "production"]
+      // Controls environment-specific behavior via NODE_ENV
+      // Critical for testing environment-specific code paths
+    }
+  ],
+
+  "configurations": [
+    {
+      // =====================================================================
+      // MAIN PROCESS CONFIGURATION
+      // Targets Electron's Node.js process (system privileges)
+      // =====================================================================
+      "name": "Debug Main Process",
+      "type": "node", // Uses Node.js debugger (required for main process)
+      "request": "launch", // Creates new process instead of attaching
+      "cwd": "${workspaceFolder}", // Sets working directory to project root
+
+      // References local project Electron to ensure version consistency
+      // Prevents issues from global vs. local Electron version mismatches
+      "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron",
+      "windows": {
+        "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron.cmd"
+        // Windows-specific path (.cmd extension required on Windows)
+      },
+
+      // Command line arguments passed to Electron
+      // Opens debugging port used by renderer process configuration
+      // Dynamic port allows multiple instances to run simultaneously
+      "args": [".", "--remote-debugging-port=${input:debugPort}"],
+
+      // Environment variables passed to the process
+      // NODE_ENV affects many libraries and configurations
+      // Critical for testing environment-specific behavior
+      "env": {
+        "NODE_ENV": "${input:nodeEnv}"
+        // User-selected from input options for consistent testing
+      },
+
+      // Build task configuration with graceful failure handling
+      // Won't fail debugging session if build task doesn't exist
+      "preLaunchTask": {
+        "task": "npm: build-dev", // Uses npm script defined in package.json
+        "type": "npm",
+        "problemMatcher": [],
+        "presentation": {
+          "reveal": "silent" // Prevents focus switching to terminal
+        },
+        "runOptions": {
+          "runOn": "folderOpen" // Runs build once at folder open
+        }
+      },
+
+      // Debugging behavior configuration
+      "outputCapture": "std", // Captures stdout/stderr in debug console
+      "sourceMaps": true, // Enables debugging of transpiled code (TS, etc.)
+      "resolveSourceMapLocations": [
+        "${workspaceFolder}/**/*", // All project files
+        "!**/node_modules/**" // Excludes dependencies for performance
+        // Cross-platform path format for consistent behavior
+      ],
+      "console": "integratedTerminal", // Uses VSCode's terminal
+      "autoAttachChildProcesses": true, // Debugs spawned processes
+      "restart": true // Auto-reconnects if process terminates and restarts
+      // Important for development with hot reloading
+    },
+
+    {
+      // =====================================================================
+      // RENDERER PROCESS CONFIGURATION
+      // Targets Electron's Chromium process (web content)
+      // =====================================================================
+      "name": "Debug Renderer Process",
+      "type": "chrome", // Uses Chrome debugger (required for renderer)
+      "request": "attach", // Connects to existing process
+
+      // Connects to debug port opened by main process
+      // Must match port specified in main process args
+      "port": "${input:debugPort}",
+      "webRoot": "${workspaceFolder}", // Root for resolving URLs to files
+
+      // Allows more startup time for complex applications
+      // Default 30s is insufficient for larger Electron apps
+      "timeout": 60000, // 60 seconds in milliseconds
+
+      // Automatically reconnects if connection is lost
+      // Critical for development with hot reloading
+      "restart": true,
+
+      // Multi-window configuration option (commented by default)
+      // Uncomment and customize to target specific renderer windows
+      // "urlFilter": "http://localhost:*/main-window",
+
+      // Maps paths in compiled sources to original source locations
+      // Required for accurate breakpoint mapping with bundlers
+      "sourceMapPathOverrides": {
+        "webpack:///./~/*": "${workspaceFolder}/node_modules/*",
+        "webpack:///./*": "${workspaceFolder}/*",
+        "webpack:///*": "*"
+        // Handles various bundler source map formats
+      }
+    }
+  ],
+
+  "compounds": [
+    {
+      // =====================================================================
+      // COMBINED DEBUGGING CONFIGURATION
+      // Launches both process debuggers simultaneously
+      // =====================================================================
+      "name": "Debug All Processes",
+      "configurations": ["Debug Main Process", "Debug Renderer Process"],
+      "stopAll": true, // Ensures both processes stop when one is terminated
+      "presentation": {
+        "group": "electron", // Groups related configurations
+        "order": 1 // Places this option at the top of the debug dropdown
+      }
+      // This is the recommended configuration for most debugging scenarios
+      // Ensures complete visibility into the entire application
+    }
+  ]
+}
