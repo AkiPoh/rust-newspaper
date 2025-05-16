@@ -1,47 +1,103 @@
 {
+  // VS Code Extensions Configuration for Rust Newspaper project
+  // Purpose: Provides recommended extensions for ideal development experience
+  // Security impact: None - optional developer tooling only
+
   // Extensions recommended for this workspace
-  // VSCode will prompt to install these automatically
+  // VSCode will prompt to install these automatically when opening the project
   "recommendations": [
     // =====================================================================
     // CORE DEVELOPMENT EXTENSIONS
+    // Essential for project code quality and consistency
     // =====================================================================
 
-    // ESLint - Code quality and problem detection
+    // ESLint - Code quality enforcement and static analysis
+    // Validates TypeScript/JavaScript against configured rules (see .eslintrc.json)
+    // Critical for maintaining code standards and catching errors early
     "dbaeumer.vscode-eslint",
 
-    // Prettier - Code formatting (used with manual triggering)
+    // Prettier - Consistent code formatting
+    // Works with manual formatting workflow defined in settings.json
+    // Ensures uniform code style across the project
     "esbenp.prettier-vscode",
 
     // =====================================================================
-    // OPTIONAL PRODUCTIVITY EXTENSIONS
+    // TYPESCRIPT/JAVASCRIPT PRODUCTIVITY
+    // Enhances development speed and code quality
     // =====================================================================
 
-    // Enhanced Git capabilities
-    "eamodio.gitlens",
-
-    // Autocompletes file paths in imports
-    "christian-kohler.path-intellisense",
-
-    // Autocompletes npm module names
-    "christian-kohler.npm-intellisense",
-
+    // Error Lens - Inline error highlighting
+    // Shows errors and warnings directly in the editor
+    // Provides immediate feedback without checking Problems panel
     "usernamehw.errorlens",
 
+    // TypeScript Importer - Automatic import management
+    // Simplifies working with imports and speeds up development
+    // Particularly useful with Electron's component structure
     "pmneo.tsimporter",
 
+    // Pretty TypeScript Errors - Improved error messages
+    // Makes TypeScript errors more readable and actionable
+    // Helps resolve type issues faster with clearer explanations
     "YoavBls.pretty-ts-errors",
 
+    // Path Intellisense - Path autocompletion
+    // Suggests file paths as you type in import statements
+    // Reduces errors in path references
+    "christian-kohler.path-intellisense",
+
+    // NPM Intellisense - Package autocompletion
+    // Autocompletes npm module names in import statements
+    // Speeds up working with external dependencies
+    "christian-kohler.npm-intellisense",
+
+    // =====================================================================
+    // SOURCE CONTROL & COLLABORATION
+    // Improves team workflow and change management
+    // =====================================================================
+
+    // GitLens - Enhanced Git capabilities
+    // Provides inline blame annotations and powerful history exploration
+    // Improves understanding of code history and authorship
+    "eamodio.gitlens",
+
+    // =====================================================================
+    // DOCUMENTATION & MARKDOWN SUPPORT
+    // Essential for project documentation
+    // =====================================================================
+
+    // Markdown All in One - Complete markdown support
+    // Provides shortcuts, auto-preview, and formatting for markdown
+    // Essential for maintaining project documentation
     "yzhang.markdown-all-in-one",
 
+    // Markdown Mermaid - Diagram support in markdown
+    // Renders Mermaid diagrams in markdown preview
+    // Useful for technical documentation with visualizations
     "bierner.markdown-mermaid",
 
-    "CelianRiboulet.webvalidator",
+    // Markdown PDF - Export markdown to PDF
+    // Converts markdown files to PDF for distribution
+    // Helpful for creating shareable documentation
+    "yzane.markdown-pdf",
 
+    // PDF Viewer - View PDFs within VS Code
+    // Opens PDF files directly in the editor
+    // Useful for referencing documentation without leaving VS Code
     "tomoki1207.pdf",
 
-    "yzane.markdown-pdf"
+    // =====================================================================
+    // WEB TECHNOLOGIES
+    // Supporting Electron's HTML/CSS foundations
+    // =====================================================================
+
+    // Web Validator - HTML/CSS validation
+    // Validates web content against standards
+    // Important for ensuring UI accessibility and correctness
+    "CelianRiboulet.webvalidator"
   ],
 
   // Extensions that might conflict with this configuration
+  // None identified currently, but can be added if conflicts arise
   "unwantedRecommendations": []
 }

@@ -1,10 +1,13 @@
 {
   // VS Code tasks configuration for Electron Forge project
   // Purpose: Defines build tasks referenced by debugging configurations
+  // Security: No sensitive operations in tasks
   "version": "2.0.0",
   "tasks": [
     {
-      // Task referenced by launch.json for main process debugging
+      // Task used by launch.json for main process debugging
+      // Acts as an alias to the npm start script to avoid modifying package.json
+      // This bridges the gap between debugging expectations and project scripts
       "type": "npm",
       "script": "start",
       "label": "npm: build-dev",
@@ -15,9 +18,6 @@
         "reveal": "silent",
         "panel": "dedicated"
       },
-      "runOptions": {
-        "runOn": "folderOpen"
-      },
       "group": {
         "kind": "build",
         "isDefault": true
@@ -25,11 +25,16 @@
     },
     {
       // Project-specific linting task for code quality checks
+      // Can be run independently or as part of pre-debug validation
       "type": "npm",
       "script": "lint",
       "label": "npm: lint",
       "detail": "Runs ESLint on TypeScript files",
-      "problemMatcher": ["$eslint-stylish"]
+      "problemMatcher": ["$eslint-stylish"],
+      "presentation": {
+        "reveal": "never",
+        "panel": "dedicated"
+      }
     }
   ]
 }
