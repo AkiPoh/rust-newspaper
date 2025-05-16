@@ -1,6 +1,6 @@
 # Rust Newspaper
 
-A spatial, visual-first interface for writing production-grade Rust code.
+A spatial, visual-first tool for developing production-grade Rust code.
 
 **PROJECT UNDER WORK / IN VERY EARLY DEVELOPMENT / NOT VERIFIED**
 

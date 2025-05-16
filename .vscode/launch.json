@@ -1,35 +1,80 @@
 {
-  // VS Code tasks configuration for Electron Forge project
-  // Purpose: Defines build tasks referenced by debugging configurations
-  "version": "2.0.0",
-  "tasks": [
+  // VS Code launch.json for Electron application debugging
+  // Purpose: Enable comprehensive debugging of both Electron processes
+  // Security note: For local development only - debug ports are not secured
+  "version": "0.2.0",
+
+  // User configurable options for debugging flexibility
+  "inputs": [
     {
-      // Task referenced by launch.json for main process debugging
-      "type": "npm",
-      "script": "start",
-      "label": "npm: build-dev",
-      "detail": "Runs electron-forge start for development",
-      "problemMatcher": ["$tsc-watch"],
-      "isBackground": true,
-      "presentation": {
-        "reveal": "silent",
-        "panel": "dedicated"
-      },
-      "runOptions": {
-        "runOn": "folderOpen"
-      },
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      }
+      "id": "debugPort",
+      "type": "pickString",
+      "default": "9222",  // Standard Chrome DevTools protocol port
+      "description": "Port for renderer process debugging",
+      "options": ["9222", "9333", "9444", "9555"]
     },
     {
-      // Project-specific linting task for code quality checks
-      "type": "npm",
-      "script": "lint",
-      "label": "npm: lint",
-      "detail": "Runs ESLint on TypeScript files",
-      "problemMatcher": ["$eslint-stylish"]
+      "id": "nodeEnv",
+      "type": "pickString",
+      "default": "development",
+      "description": "Node environment",
+      "options": ["development", "staging", "production"]
+    }
+  ],
+
+  "configurations": [
+    {
+      // Main process debugging configuration
+      "name": "Debug Main Process",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron",
+      "windows": {
+        "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron.cmd"
+      },
+      "args": [".", "--remote-debugging-port=${input:debugPort}"],
+      "env": {
+        "NODE_ENV": "${input:nodeEnv}"
+      },
+      "preLaunchTask": "npm: build-dev",
+      "outputCapture": "std",
+      "sourceMaps": true,
+      "resolveSourceMapLocations": [
+        "${workspaceFolder}/**/*",
+        "!**/node_modules/**"
+      ],
+      "console": "integratedTerminal",
+      "autoAttachChildProcesses": true,
+      "restart": true
+    },
+    {
+      // Renderer process debugging configuration
+      "name": "Debug Renderer Process",
+      "type": "chrome",
+      "request": "attach",
+      "port": "${input:debugPort}",
+      "webRoot": "${workspaceFolder}",
+      "timeout": 60000,
+      "restart": true,
+      "sourceMapPathOverrides": {
+        "webpack:///./~/*": "${workspaceFolder}/node_modules/*",
+        "webpack:///./*": "${workspaceFolder}/*",
+        "webpack:///*": "*"
+      }
+    }
+  ],
+
+  "compounds": [
+    {
+      // Combined configuration for debugging both processes
+      "name": "Debug All Processes",
+      "configurations": ["Debug Main Process", "Debug Renderer Process"],
+      "stopAll": true,
+      "presentation": {
+        "group": "electron",
+        "order": 1
+      }
     }
   ]
 }

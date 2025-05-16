@@ -2,7 +2,7 @@
   "name": "rust-newspaper",
   "productName": "rust-newspaper",
   "version": "1.0.0",
-  "description": "My Electron application description",
+  "description": "A spatial, visual-first tool for developing production-grade Rust code",
   "main": ".webpack/main",
   "scripts": {
     "start": "electron-forge start",
@@ -16,7 +16,7 @@
     "name": "AkiPoh",
     "email": "59505647+AkiPoh@users.noreply.github.com"
   },
-  "license": "MIT",
+  "license": "Apache-2.0",
   "devDependencies": {
     "@electron-forge/cli": "^7.8.1",
     "@electron-forge/maker-deb": "^7.8.1",
