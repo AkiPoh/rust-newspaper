@@ -1,0 +1,47 @@
+{
+  // Extensions recommended for this workspace
+  // VSCode will prompt to install these automatically
+  "recommendations": [
+    // =====================================================================
+    // CORE DEVELOPMENT EXTENSIONS
+    // =====================================================================
+
+    // ESLint - Code quality and problem detection
+    "dbaeumer.vscode-eslint",
+
+    // Prettier - Code formatting (used with manual triggering)
+    "esbenp.prettier-vscode",
+
+    // =====================================================================
+    // OPTIONAL PRODUCTIVITY EXTENSIONS
+    // =====================================================================
+
+    // Enhanced Git capabilities
+    "eamodio.gitlens",
+
+    // Autocompletes file paths in imports
+    "christian-kohler.path-intellisense",
+
+    // Autocompletes npm module names
+    "christian-kohler.npm-intellisense",
+
+    "usernamehw.errorlens",
+
+    "pmneo.tsimporter",
+
+    "YoavBls.pretty-ts-errors",
+
+    "yzhang.markdown-all-in-one",
+
+    "bierner.markdown-mermaid",
+
+    "CelianRiboulet.webvalidator",
+
+    "tomoki1207.pdf",
+
+    "yzane.markdown-pdf"
+  ],
+
+  // Extensions that might conflict with this configuration
+  "unwantedRecommendations": []
+}

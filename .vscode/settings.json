@@ -1,0 +1,117 @@
+{
+  // =====================================================================
+  // FORMATTING AND LINTING CONTROLS
+  // =====================================================================
+
+  // Runs ESLint only on manual save (Ctrl+S), not auto-save
+  // Gives developers explicit control over when linting occurs
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+
+  // Default formatter when manually triggered (does NOT auto-format)
+  // Requires Prettier extension (see extensions.json)
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+  // =====================================================================
+  // LANGUAGE-SPECIFIC SETTINGS
+  // =====================================================================
+
+  // JavaScript-specific settings (*.js, *.jsx files)
+  "[javascript]": {
+    // Use Prettier for formatting when manually triggered
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
+  // TypeScript-specific settings (*.ts, *.tsx files)
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
+  // JSON-specific settings (*.json files)
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
+  // =====================================================================
+  // IMPORT HANDLING AND ORGANIZATION
+  // =====================================================================
+
+  // Shows dialog before updating imports when files move
+  // Preserves developer control while offering convenience
+  "javascript.updateImportsOnFileMove.enabled": "prompt",
+  "typescript.updateImportsOnFileMove.enabled": "prompt",
+
+  // Uses relative paths ('../components/Button') for imports
+  // Better for Electron's dual-process architecture
+  "javascript.preferences.importModuleSpecifier": "relative",
+  "typescript.preferences.importModuleSpecifier": "relative",
+
+  // =====================================================================
+  // TYPESCRIPT/JAVASCRIPT CONFIGURATION
+  // =====================================================================
+
+  // Uses project's TypeScript version instead of VSCode's built-in one
+  // Ensures consistency between editor features and actual compilation
+  "typescript.tsdk": "node_modules/typescript/lib",
+
+  // Enables type checking in JS files without explicit @ts-check
+  "js/ts.implicitProjectConfig.checkJs": true,
+
+  // =====================================================================
+  // SEARCH AND PERFORMANCE OPTIMIZATION
+  // =====================================================================
+
+  // Excludes generated files from search results
+  // Improves search relevance and performance
+  "search.exclude": {
+    "**/node_modules": true, // Third-party dependencies
+    "**/dist": true, // Distribution output
+    "**/out": true, // Electron output directory
+    "**/.webpack": true // Webpack temporary files
+  },
+
+  // Prevents VSCode from file watching in specified directories
+  // Critical for reducing CPU/memory usage in large projects
+  "files.watcherExclude": {
+    "**/.git/objects/**": true, // Git internals
+    "**/.git/subtree-cache/**": true, // Git internals
+    "**/node_modules/**": true, // Dependencies
+    "**/dist/**": true, // Build output
+    "**/out/**": true, // Electron output
+    "**/.webpack/**": true // Webpack temporary files
+  },
+
+  // =====================================================================
+  // CROSS-PLATFORM COMPATIBILITY
+  // =====================================================================
+
+  // Uses LF line endings on all platforms
+  // Prevents git diff issues in cross-platform teams
+  "files.eol": "\n",
+
+  // Ensures files end with a newline character
+  "files.insertFinalNewline": true,
+
+  // =====================================================================
+  // CODE STYLE GUIDANCE
+  // =====================================================================
+
+  // Visual guide at column 100 for line length
+  "editor.rulers": [100],
+
+  // Removes whitespace at line endings
+  "files.trimTrailingWhitespace": true,
+
+  // =====================================================================
+  // ELECTRON-SPECIFIC SETTINGS
+  // =====================================================================
+
+  // Files types for ESLint to validate
+  "eslint.validate": [
+    "javascript", // .js files
+    "typescript", // .ts files
+    "javascriptreact", // .jsx files
+    "typescriptreact" // .tsx files
+  ]
+}
