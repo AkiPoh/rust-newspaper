@@ -1,7 +1,8 @@
 {
   // VS Code Extensions Configuration for Rust Newspaper project
   // Purpose: Provides recommended extensions for ideal development experience
-  // Security impact: None - optional developer tooling only
+  // Security impact: Potentially significant for developers who install these
+  // third-party extensions; no likely impact for end-users of the application
 
   // Extensions recommended for this workspace
   // VSCode will prompt to install these automatically when opening the project
