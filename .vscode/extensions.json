@@ -94,7 +94,17 @@
     // Web Validator - HTML/CSS validation
     // Validates web content against standards
     // Important for ensuring UI accessibility and correctness
-    "CelianRiboulet.webvalidator"
+    "CelianRiboulet.webvalidator",
+
+    // =====================================================================
+    // QUALITY OF LIFE
+    // Improves workspace harmonisation across developers
+    // =====================================================================
+
+    // Material Icon Theme - Custom file and folder icons
+    // Provides visually distinct icons for different file types and folders
+    // Improves project navigation and file type recognition at a glance
+    "PKief.material-icon-theme"
   ],
 
   // Extensions that might conflict with this configuration
