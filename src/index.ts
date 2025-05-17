@@ -45,8 +45,54 @@ if (require("electron-squirrel-startup")) {
 
 // =====================================================================
 // WINDOW CREATION
-// Creates application window with fixed 800x600 dimensions
+// Creates application window
 // =====================================================================
+
+// Factory function that creates and initializes the application's main BrowserWindow
+// - Creates a window with fixed (800x600px) dimensions, at the center of the display
+// - Uses a privileged initialization script (preload) that runs before renderer content
+//   to create a secure bridge for main process/renderer communication
+// - Loads the application's complete web content (HTML, JavaScript/TypeScript, CSS)
+const createWindow = (): void => {
+  try {
+    // Create browser window with fixed dimensions
+    const mainWindow = new BrowserWindow({
+      // Fixed window dimensions
+      width: 800,
+      height: 600,
+      // Position window in center of screen
+      center: true,
+      // Configure security for the application's user interface
+      webPreferences: {
+        // Use our preload script (defined within APPLICATION INITIALIZATION section of
+        // this file)
+        // This creates a secure bridge between the UI and system capabilities
+        preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
+      },
+    });
+
+    // Load the application's UI content into the mainWindow instance that we just
+    // created above - without doing the following, the window would be empty
+    // - This loads our src/index.html with bundled JavaScript/CSS (our application UI)
+    // - MAIN_WINDOW_WEBPACK_ENTRY points to the webpack-compiled frontend assets
+    // - mainWindow.loadURL() is the BrowserWindow method that navigates to these assets
+    mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
+
+  } catch (error) {
+    // Log the error for developers
+    console.error("Window creation error:", error);
+
+    // Show a user-friendly error dialog
+    dialog.showErrorBox(
+      "Unable to Start Application",
+      "The application couldn't start properly. Please try restarting it."
+    );
+
+    // Exit the application
+    app.exit(1);
+  }
+};
+
 
 // Factory function that creates and initializes the application's main BrowserWindow
 // - Creates a window with fixed 800x600 dimensions, at the center of the display
