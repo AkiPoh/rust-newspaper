@@ -1,12 +1,19 @@
 // ELECTRON MAIN PROCESS ENTRY POINT
 // PURPOSE: Manages application lifecycle, window creation with fixed sizing,
 // and establishes the core infrastructure for the Electron application
-// SECURITY IMPACT FOR DEVELOPERS: Moderate - Determines main window behavior and
-// DevTools availability; configures preload scripts that define the security boundary
-// between renderer and main processes
+// SECURITY IMPACT FOR DEVELOPERS: Moderate - Determines main window behavior; and configures
+// preload scripts that define the security boundary between renderer and main processes
 // SECURITY IMPACT FOR APPLICATION END-USERS: Significant - Establishes the fundamental
 // security posture of the application through BrowserWindow settings, affecting
 // all users of the compiled application
+
+// (ORPHAN NOTE)
+// DevTools can be accessed when needed using:
+// - Keyboard: Ctrl+Shift+I (Windows/Linux) or Cmd+Option+I (Mac)
+// - Programmatically: mainWindow.webContents.openDevTools()
+// - Menu: View > Developer > Developer Tools (when using default menu)
+// (Not automatically opening DevTools on application startup provides a cleaner development
+// experience and better represents the actual user experience)
 
 // =====================================================================
 // APPLICATION INITIALIZATION
@@ -16,7 +23,7 @@
 // Import Electron modules that operate within the main process
 // - app: Controls application lifecycle (startup, events, termination)
 // - BrowserWindow: Creates native browser windows to display content
-// - dialog: Provides native system dialogs for messaging
+// - dialog: Provides native system dialogs, for doing things such as error messages
 import { app, BrowserWindow, dialog } from "electron";
 
 // TypeScript declarations for constants injected at build time by Electron Forge
@@ -42,18 +49,11 @@ if (require("electron-squirrel-startup")) {
 // =====================================================================
 
 // Factory function that creates and initializes the application's main BrowserWindow
-// - Creates a window with fixed 800x600 dimensions
+// - Creates a window with fixed 800x600 dimensions, at the center of the display
 // - Uses a privileged initialization script (preload) that runs before renderer content
 //   to create a secure bridge for main process/renderer communication
 // - Loads the application's complete web content (HTML, JavaScript/TypeScript, CSS)
 const createWindow = (): void => {
-  // DevTools can be accessed when needed using:
-  // - Keyboard: Ctrl+Shift+I (Windows/Linux) or Cmd+Option+I (Mac)
-  // - Programmatically: mainWindow.webContents.openDevTools()
-  // - Menu: View > Developer > Developer Tools (when using default menu)
-  // Not automatically opening DevTools provides a cleaner development experience
-  // and better represents the actual user experience
-
   try {
     // Create browser window with fixed dimensions
     const mainWindow = new BrowserWindow({
@@ -76,20 +76,20 @@ const createWindow = (): void => {
     // - MAIN_WINDOW_WEBPACK_ENTRY points to our compiled frontend assets
     // - This loads our src/index.html with bundled JavaScript/CSS
     mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
-
   } catch (error) {
     // Log the error to console for developers
-    console.error('Window creation error:', error);
+    console.error("Window creation error:", error);
 
     // Show notification that we're using fallback settings
     // This is primarily useful during development to catch issues
-    if (process.env.NODE_ENV === 'development') {
+    if (process.env.NODE_ENV === "development") {
       dialog.showMessageBox({
-        type: 'warning',
-        title: 'Using Fallback Settings',
-        message: 'The application encountered an issue during startup and is using fallback settings.',
+        type: "warning",
+        title: "Using Fallback Settings",
+        message:
+          "The application encountered an issue during startup and is using fallback settings.",
         detail: `This typically indicates a configuration problem that should be addressed. Error details: ${error.message}`,
-        buttons: ['Continue'],
+        buttons: ["Continue"],
         defaultId: 0,
       });
     }
@@ -106,10 +106,10 @@ const createWindow = (): void => {
       mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
     } catch (criticalError) {
       // Only at this point do we have a truly fatal error
-      console.error('Critical application failure:', criticalError);
+      console.error("Critical application failure:", criticalError);
       dialog.showErrorBox(
-        'Unable to Start Application',
-        'The application encountered a critical error and cannot continue. Please try restarting the application. If this issue persists, please report it to the development team.'
+        "Unable to Start Application",
+        "The application encountered a critical error and cannot continue. Please try restarting the application. If this issue persists, please report it to the development team."
       );
       app.exit(1); // Exit with error code
     }
