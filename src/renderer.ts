@@ -27,7 +27,6 @@
  */
 
 import "./index.css";
-import "./newspaper/newspaper.css"; // Import newspaper functionality
 
 console.log(
   '👋 This message is being logged by "renderer.js", included via webpack'
