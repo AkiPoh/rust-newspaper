@@ -12,8 +12,8 @@ This directory contains **VS Code** workspace configurations to streamline devel
     - [Code Formatting](#code-formatting)
     - [Debugging](#debugging)
     - [Troubleshooting](#troubleshooting)
-  - [REFERENCE-TABLE: Table of `.vscode` Directory  Files and Purposes](#reference-table-table-of-vscode-directory--files-and-purposes)
-  - [REFERENCE-TABLE: Table of Security Impact Ratings of Configuration Files](#reference-table-table-of-security-impact-ratings-of-configuration-files)
+  - [REFERENCE-TABLE: Table of `.vscode` Directory Files and Purposes](#reference-table-table-of-vscode-directory-files-and-purposes)
+  - [REFERENCE-TABLE: Table of `.vscode` Directory Files and Security Impact Ratings](#reference-table-table-of-vscode-directory-files-and-security-impact-ratings)
   - [REFERENCE: Philosophy Behind Our VS Code Configuration Choices](#reference-philosophy-behind-our-vs-code-configuration-choices)
   - [REFERENCE: Technical Details of Each Configuration File](#reference-technical-details-of-each-configuration-file)
     - [Editor Settings (`settings.json`)](#editor-settings-settingsjson)
@@ -59,21 +59,23 @@ If debugging fails to launch:
 3. Try selecting "Debug All Processes" configuration
 4. Check the Output panel (Ctrl+Shift+U) for error messages
 
-## REFERENCE-TABLE: Table of `.vscode` Directory  Files and Purposes
+## REFERENCE-TABLE: Table of `.vscode` Directory Files and Purposes
 
 This directory contains VS Code configurations optimized for Electron Forge project development:
 
 | File                  | Purpose                                                  |
 | --------------------- | -------------------------------------------------------- |
+| **`README.md`**       | Developer documentation for this `.vscode` directory     |
 | **`settings.json`**   | Editor behavior and project-specific settings            |
 | **`launch.json`**     | Debugging configurations for main and renderer processes |
 | **`tasks.json`**      | Build and validation task definitions                    |
 | **`extensions.json`** | Recommended extensions for development                   |
 
-## REFERENCE-TABLE: Table of Security Impact Ratings of Configuration Files
+## REFERENCE-TABLE: Table of `.vscode` Directory Files and Security Impact Ratings
 
 | File                  | Developer Security Impact | End-User Security Impact |
 | --------------------- | ------------------------- | ------------------------ |
+| **`README.md`**       | Developer Documentation   | Developer Documentation  |
 | **`settings.json`**   | Potentially Significant   | Potentially Significant  |
 | **`launch.json`**     | Potentially Significant   | Minimal                  |
 | **`tasks.json`**      | Potentially Significant   | Potentially Significant  |
