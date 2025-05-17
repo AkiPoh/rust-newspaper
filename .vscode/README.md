@@ -47,7 +47,7 @@ To start debugging:
 2. Press F5 or click the green play button
 3. Optionally select a custom debug port or Node environment when prompted
 
-## Troubleshooting
+### Troubleshooting
 
 If debugging fails to launch:
 
