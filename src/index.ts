@@ -72,7 +72,7 @@ const createWindow = (): void => {
   // - mainWindow is the BrowserWindow we just created above
   // - MAIN_WINDOW_WEBPACK_ENTRY points to our compiled frontend assets
   // - loadURL() is a BrowserWindow method that navigates the window to a URL
-  // - This loads our src/index.html with bundled JavaScript/CSS - ensuring
+  // - This loads our src/html/index.html with bundled JavaScript/CSS - ensuring
   // we have something to actually display
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 };
