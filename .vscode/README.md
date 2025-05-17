@@ -1,5 +1,61 @@
 # VS Code Workspace Configuration for Electron Forge Project
 
+## Table of Contents
+
+- [Configuration Overview](#configuration-overview) - `.vscode` directory configuration files and their purposes
+- [Security Considerations](#security-considerations) - Security impact assessment for each configuration file
+- [Development Philosophy](#development-philosophy) - Project's approach to balancing standardization and flexibility
+- [Configuration Details](#configuration-details) - In-depth explanation of each configuration file
+  - [Editor Settings (`settings.json`)](#editor-settings-settingsjson) - Code style, formatting, and TypeScript validation settings
+  - [Debugging Configuration (`launch.json`)](#debugging-configuration-launchjson) - Main and renderer process debug configurations
+  - [Build Tasks (`tasks.json`)](#build-tasks-tasksjson) - Build and lint automation tasks
+  - [Recommended Extensions (`extensions.json`)](#recommended-extensions-extensionsjson) - Extension categorization and security considerations
+- [Recommended Extensions](#recommended-extensions) - Curated extensions by functional category
+  - [Core Development](#core-development) - ESLint and Prettier for code quality
+  - [TypeScript/JavaScript Productivity](#typescriptjavascript-productivity) - Type checking and import tools
+  - [Source Control & Collaboration](#source-control--collaboration) - Git integration enhancements
+  - [Documentation & Markdown Support](#documentation--markdown-support) - Markdown editing and preview tools
+  - [Web Technologies](#web-technologies) - HTML/CSS validation for Electron UI
+  - [Quality of Life](#quality-of-life) - Improved file identification icons
+- [Development Workflow](#development-workflow) - Standard development operations
+  - [Code Formatting](#code-formatting) - Manual Prettier and ESLint usage instructions
+  - [Debugging](#debugging) - Step-by-step debugging startup procedure
+- [Troubleshooting](#troubleshooting) - Common debugging launch issues and solutions
+
+
+
+## Development Workflow
+
+### Code Formatting
+
+This project uses manual code formatting to give developers control:
+
+1. Format code with Prettier: `Shift+Alt+F`
+2. ESLint fixes: Run on explicit saves only (`Ctrl+S`)
+
+### Debugging
+
+Three debugging configurations are available:
+
+1. **Debug Main Process**: For Node.js backend code
+2. **Debug Renderer Process**: For browser/UI code
+3. **Debug All Processes**: For full application debugging (recommended)
+
+To start debugging:
+
+1. Select configuration from Run & Debug panel (`Ctrl+Shift+D`)
+2. Press F5 or click the green play button
+3. Optionally select a custom debug port or Node environment when prompted
+
+## Troubleshooting
+
+If debugging fails to launch:
+
+1. Check if "electron-forge start" works from terminal
+2. Verify port 9222 isn't in use by another process
+3. Try selecting "Debug All Processes" configuration
+4. Check the Output panel (Ctrl+Shift+U) for error messages
+
 ## Configuration Overview
 
 This directory contains VS Code configurations optimized for Electron Forge project development:
@@ -78,9 +134,7 @@ The extensions.json file provides the recommended extension IDs for VS Code, so 
 
 This file represents one of the more security-sensitive components of the VS Code configuration, as it introduces third-party extensions with VS Code privileges into the development environment. This security concern is slightly mitigated by the opt-in nature of these extensions—no hidden downloads of extensions should occur merely from the recommendations made in extensions.json. The developer must explicitly choose to download and enable each extension, maintaining control over what each developer chooses to install based on their personal risk analysis.
 
-## Recommended Extensions
-
-Our `extensions.json` includes carefully selected tools organized by purpose:
+**Our `extensions.json` includes carefully selected extension recommendations organized by purpose:**
 
 ### Core Development
 
@@ -113,35 +167,3 @@ Our `extensions.json` includes carefully selected tools organized by purpose:
 ### Quality of Life
 
 - **Material Icon Theme**: More distinct visual file type identification icons for VS Code to achieve easier navigation
-
-## Development Workflow
-
-### Code Formatting
-
-This project uses manual code formatting to give developers control:
-
-1. Format code with Prettier: `Shift+Alt+F`
-2. ESLint fixes: Run on explicit saves only (`Ctrl+S`)
-
-### Debugging
-
-Three debugging configurations are available:
-
-1. **Debug Main Process**: For Node.js backend code
-2. **Debug Renderer Process**: For browser/UI code
-3. **Debug All Processes**: For full application debugging (recommended)
-
-To start debugging:
-
-1. Select configuration from Run & Debug panel (`Ctrl+Shift+D`)
-2. Press F5 or click the green play button
-3. Optionally select a custom debug port or Node environment when prompted
-
-## Troubleshooting
-
-If debugging fails to launch:
-
-1. Check if "electron-forge start" works from terminal
-2. Verify port 9222 isn't in use by another process
-3. Try selecting "Debug All Processes" configuration
-4. Check the Output panel (Ctrl+Shift+U) for error messages
