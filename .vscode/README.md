@@ -1,13 +1,13 @@
 # VS Code Workspace Configuration for Electron Forge Project
 
-This directory contains **VS Code** configurations to streamline development for our **Electron Forge project**. **For developers using VS Code**, these files provide **workspace settings**, **debugging setups** for both Electron processes, **build task definitions**, and curated **extension recommendations**.
+This directory contains **VS Code** workspace configurations to streamline development for our **Electron Forge project**. **For developers using VS Code**, these files provide **workspace settings**, **debugging setups** for both Electron processes, **build task definitions**, and curated **extension recommendations**.
 
-**Why this matters:** These configurations establish consistent coding standards while **respecting individual workflow preferences**. New developers will hopefully find that **setup time is reduced**, while experienced developers may appreciate having **well-documented VS Code configurations** tailored to this project.
+**Why this matters:** These configurations establish consistent coding standards while **respecting individual workflow preferences**. New developers will hopefully find that **setup time is reduced**, while experienced developers hopefully appreciate having **well-documented VS Code configurations** tailored to this project.
 
-## Table of Contents
+## REFERENCE: Table of Contents for This `README.md`
 
 - [VS Code Workspace Configuration for Electron Forge Project](#vs-code-workspace-configuration-for-electron-forge-project)
-  - [Table of Contents](#table-of-contents)
+  - [REFERENCE: Table of Contents for This `README.md`](#reference-table-of-contents-for-this-readmemd)
   - [PRACTICAL: Using VS Code with the Electron Forge Configuration](#practical-using-vs-code-with-the-electron-forge-configuration)
     - [Code Formatting](#code-formatting)
     - [Debugging](#debugging)
