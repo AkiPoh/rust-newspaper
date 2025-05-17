@@ -1,30 +1,31 @@
 # VS Code Workspace Configuration for Electron Forge Project
 
+This directory contains VS Code configurations that streamline development for our Electron Forge project. The files within this `.vscode` directory define VS Code workspace settings, debugging setups for both Electron processes, build task definitions, and curated extension recommendations to aid smooth development. These configurations establish consistent code and development enviroment setup standards while respecting developer workflow preferences. New developers will hopefully find that these settings reduce environment setup time, while experienced developers will hopefully appreciate the smooth setup and developepment process established for VS Code users.
+
 ## Table of Contents
 
-- [Configuration Overview](#configuration-overview) - `.vscode` directory configuration files and their purposes
-- [Security Considerations](#security-considerations) - Security impact assessment for each configuration file
-- [Development Philosophy](#development-philosophy) - Project's approach to balancing standardization and flexibility
-- [Configuration Details](#configuration-details) - In-depth explanation of each configuration file
-  - [Editor Settings (`settings.json`)](#editor-settings-settingsjson) - Code style, formatting, and TypeScript validation settings
-  - [Debugging Configuration (`launch.json`)](#debugging-configuration-launchjson) - Main and renderer process debug configurations
-  - [Build Tasks (`tasks.json`)](#build-tasks-tasksjson) - Build and lint automation tasks
-  - [Recommended Extensions (`extensions.json`)](#recommended-extensions-extensionsjson) - Extension categorization and security considerations
-- [Recommended Extensions](#recommended-extensions) - Curated extensions by functional category
-  - [Core Development](#core-development) - ESLint and Prettier for code quality
-  - [TypeScript/JavaScript Productivity](#typescriptjavascript-productivity) - Type checking and import tools
-  - [Source Control & Collaboration](#source-control--collaboration) - Git integration enhancements
-  - [Documentation & Markdown Support](#documentation--markdown-support) - Markdown editing and preview tools
-  - [Web Technologies](#web-technologies) - HTML/CSS validation for Electron UI
-  - [Quality of Life](#quality-of-life) - Improved file identification icons
-- [Development Workflow](#development-workflow) - Standard development operations
-  - [Code Formatting](#code-formatting) - Manual Prettier and ESLint usage instructions
-  - [Debugging](#debugging) - Step-by-step debugging startup procedure
-- [Troubleshooting](#troubleshooting) - Common debugging launch issues and solutions
+- [VS Code Workspace Configuration for Electron Forge Project](#vs-code-workspace-configuration-for-electron-forge-project)
+  - [Table of Contents](#table-of-contents)
+  - [PRACTICAL: Using VS Code with the Electron Forge Configuration](#practical-using-vs-code-with-the-electron-forge-configuration)
+    - [Code Formatting](#code-formatting)
+    - [Debugging](#debugging)
+    - [Troubleshooting](#troubleshooting)
+  - [REFERENCE-TABLE: Table of VS Code Configuration Files and Purposes](#reference-table-table-of-vs-code-configuration-files-and-purposes)
+  - [REFERENCE-TABLE: Table of Security Impact Ratings of Configuration Files](#reference-table-table-of-security-impact-ratings-of-configuration-files)
+  - [REFERENCE: Philosophy Behind Our VS Code Configuration Choices](#reference-philosophy-behind-our-vs-code-configuration-choices)
+  - [REFERENCE: Technical Details of Each Configuration File](#reference-technical-details-of-each-configuration-file)
+    - [Editor Settings (`settings.json`)](#editor-settings-settingsjson)
+    - [Debugging Configuration (`launch.json`)](#debugging-configuration-launchjson)
+    - [Build Tasks (`tasks.json`)](#build-tasks-tasksjson)
+    - [Recommended Extensions (`extensions.json`)](#recommended-extensions-extensionsjson)
+      - [Core Development Extensions](#core-development-extensions)
+      - [TypeScript/JavaScript Productivity Extensions](#typescriptjavascript-productivity-extensions)
+      - [Source Control \& Collaboration Extensions](#source-control--collaboration-extensions)
+      - [Documentation \& Markdown Support Extensions](#documentation--markdown-support-extensions)
+      - [Web Technologies Extensions](#web-technologies-extensions)
+      - [Quality of Life Extensions](#quality-of-life-extensions)
 
-
-
-## Development Workflow
+## PRACTICAL: Using VS Code with the Electron Forge Configuration
 
 ### Code Formatting
 
@@ -56,7 +57,7 @@ If debugging fails to launch:
 3. Try selecting "Debug All Processes" configuration
 4. Check the Output panel (Ctrl+Shift+U) for error messages
 
-## Configuration Overview
+## REFERENCE-TABLE: Table of VS Code Configuration Files and Purposes
 
 This directory contains VS Code configurations optimized for Electron Forge project development:
 
@@ -67,7 +68,7 @@ This directory contains VS Code configurations optimized for Electron Forge proj
 | **`tasks.json`**      | Build and validation task definitions                    |
 | **`extensions.json`** | Recommended extensions for development                   |
 
-## Security Considerations
+## REFERENCE-TABLE: Table of Security Impact Ratings of Configuration Files
 
 | File                  | Developer Security Impact | End-User Security Impact |
 | --------------------- | ------------------------- | ------------------------ |
@@ -78,7 +79,7 @@ This directory contains VS Code configurations optimized for Electron Forge proj
 
 Each configuration file includes security considerations documentation addressing both developer and end-user impacts. Refer to those for more comprehensive information.
 
-## Development Philosophy
+## REFERENCE: Philosophy Behind Our VS Code Configuration Choices
 
 This project balances project developer VS Code configuration consistency with individual developer flexibility:
 
@@ -89,7 +90,7 @@ This project balances project developer VS Code configuration consistency with i
 
 Our aim ist to establish a development environment that balances flexibility and familiarity for each developer, while ensuring consistent standards where essential and a low barrier to entry for newcomers.
 
-## Configuration Details
+## REFERENCE: Technical Details of Each Configuration File
 
 This section bridges the gap between "here are some files" and "here's how to effectively develop with them," allowing newcomers to begin understanding the reasoning behind decisions while quickly giving experienced devs the technical details they need to work productively.
 
@@ -136,12 +137,12 @@ This file represents one of the more security-sensitive components of the VS Cod
 
 **Our `extensions.json` includes carefully selected extension recommendations organized by purpose:**
 
-### Core Development
+#### Core Development Extensions
 
 - **ESLint**: Code quality enforcement with automatic fixing on manual save, (configured by `settings.json`)
 - **Prettier**: Consistent code formatting when manually triggered, (configured by `settings.json`)
 
-### TypeScript/JavaScript Productivity
+#### TypeScript/JavaScript Productivity Extensions
 
 - **Error Lens**: Inline error highlighting directly in the editor
 - **TypeScript Importer**: Automatic import management for faster development
@@ -149,21 +150,21 @@ This file represents one of the more security-sensitive components of the VS Cod
 - **Path Intellisense**: Path autocompletion for more accurate imports
 - **NPM Intellisense**: Package autocompletion for external dependencies
 
-### Source Control & Collaboration
+#### Source Control & Collaboration Extensions
 
 - **GitLens**: Enhanced Git capabilities for understanding code history
 
-### Documentation & Markdown Support
+#### Documentation & Markdown Support Extensions
 
 - **Markdown All in One**: Complete markdown editing with shortcuts and preview
 - **Markdown Mermaid**: Diagram support in markdown documentation
 - **Markdown PDF**: Export markdown files to PDF for distribution
 - **PDF Viewer**: View PDF files directly within VS Code
 
-### Web Technologies
+#### Web Technologies Extensions
 
 - **W3C Web Validator**: HTML/CSS validation for Electron's web-based UI
 
-### Quality of Life
+#### Quality of Life Extensions
 
 - **Material Icon Theme**: More distinct visual file type identification icons for VS Code to achieve easier navigation
