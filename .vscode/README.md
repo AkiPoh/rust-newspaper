@@ -172,3 +172,4 @@ This file represents one of the more security-sensitive components of the VS Cod
 #### Quality of Life Extensions
 
 - **Material Icon Theme**: More distinct visual file type identification icons for VS Code to achieve easier navigation
+- **Indent Rainbow**: Makes indentation levels visually distinct with alternating colors, improving code readability

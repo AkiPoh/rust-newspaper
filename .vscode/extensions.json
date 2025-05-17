@@ -117,7 +117,12 @@
     // Material Icon Theme - Custom file and folder icons
     // Provides visually distinct icons for different file types and folders
     // Improves project navigation and file type recognition at a glance
-    "PKief.material-icon-theme"
+    "PKief.material-icon-theme",
+
+    // Indent Rainbow - Colorizes indentations
+    // Makes indentation levels visually distinct with alternating colors
+    // Improves code readability
+    "oderwat.indent-rainbow"
   ],
 
   // Extensions that might conflict with this configuration

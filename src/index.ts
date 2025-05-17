@@ -70,14 +70,15 @@ const createWindow = (): void => {
 
   // Load the application's UI content into the mainWindow instance
   // - mainWindow is the BrowserWindow we just created above
-  // - loadURL() is a BrowserWindow method that navigates the window to a URL
   // - MAIN_WINDOW_WEBPACK_ENTRY points to our compiled frontend assets
-  // - This loads our src/index.html with bundled JavaScript/CSS
+  // - loadURL() is a BrowserWindow method that navigates the window to a URL
+  // - This loads our src/index.html with bundled JavaScript/CSS - ensuring
+  // we have something to actually display
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 };
 
 // =====================================================================
-// APPLICATION LIFECYCLE
+// APPLICATION LIFECYCLE MANAGEMENT
 // Event handlers for app startup, shutdown, and OS integration
 // =====================================================================
 
@@ -86,7 +87,7 @@ const createWindow = (): void => {
 // - Node.js initializes, then loads and executes this main script (index.ts)
 // - As code executes, Electron begins initializing its internal modules
 // - The 'ready' event fires when Electron completes this initialization
-// - At that point, this handler calls createWindow() to create our UI
+// - At that point, this handler calls above defined createWindow() to create our UI
 app.on("ready", createWindow);
 
 // Configure application behavior when all windows are closed
