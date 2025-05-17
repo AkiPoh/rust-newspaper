@@ -77,22 +77,52 @@ const createWindow = (): void => {
     // - MAIN_WINDOW_WEBPACK_ENTRY points to the webpack-compiled frontend assets
     // - mainWindow.loadURL() is the BrowserWindow method that navigates to these assets
     mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
+} catch (error) {
+    // [PROJECT: rust-newspaper | FILE: src/index.ts | FUNCTION: createWindow]
+    // Log the primary window creation error with source context
+    console.error("[src/index.ts:createWindow] Window creation error:", error);
 
-  } catch (error) {
-    // Log the error for developers
-    console.error("Window creation error:", error);
+    dialog
+      .showMessageBox(null, {
+        type: "error",
+        title:
+          "Failed to Create Application Window; Aborting Application Startup",
+        message:
+          "The application couldn't start properly. Consider trying to restart your system if problem persists.",
+        detail:
+          "Advanced error diagnostics:\n" +
+          (error?.stack ||
+            error?.message ||
+            error.toString() ||
+            "Unknown error") +
+          "\n\nError location: src/index.ts:createWindow",
+        buttons: ["Close"],
+        defaultId: 0,
+        noLink: true,
+      })
+      .then(() => {
+        app.exit(1);
+      })
+      .catch((dialogError) => {
+        // Log the dialog failure with source context
+        console.error("[src/index.ts:createWindow] Failed to display error dialog:", dialogError);
 
-    // Show a user-friendly error dialog
-    dialog.showErrorBox(
-      "Unable to Start Application",
-      "The application couldn't start properly. Please try restarting it."
-    );
+        // Attempt to show a more basic error popup as final fallback
+        try {
+          dialog.showErrorBox(
+            "Critical Application Error",
+            "The application failed to start and could not display detailed error information. Please check application logs for more details. [src/index.ts:createWindow]"
+          );
+        } catch (fallbackError) {
+          // Log complete UI notification failure
+          console.error("[src/index.ts:createWindow] Failed to display fallback error box:", fallbackError);
+        }
 
-    // Exit the application
-    app.exit(1);
+        // Ensure application exits even if all dialogs fail
+        app.exit(1);
+      });
   }
 };
-
 
 // Factory function that creates and initializes the application's main BrowserWindow
 // - Creates a window with fixed 800x600 dimensions, at the center of the display
