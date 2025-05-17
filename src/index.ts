@@ -1,5 +1,5 @@
 // ELECTRON MAIN PROCESS ENTRY POINT
-// PURPOSE: Manages application lifecycle, window creation with responsive sizing,
+// PURPOSE: Manages application lifecycle, window creation with fixed sizing,
 // and establishes the core infrastructure for the Electron application
 // SECURITY IMPACT FOR DEVELOPERS: Moderate - Determines main window behavior and
 // DevTools availability; configures preload scripts that define the security boundary
@@ -16,8 +16,8 @@
 // Import Electron modules that operate within the main process
 // - app: Controls application lifecycle (startup, events, termination)
 // - BrowserWindow: Creates native browser windows to display content
-// - screen: Provides display metrics for responsive sizing
-import { app, BrowserWindow, screen } from "electron";
+// - dialog: Provides native system dialogs for messaging
+import { app, BrowserWindow, dialog } from "electron";
 
 // TypeScript declarations for constants injected at build time by Electron Forge
 // - MAIN_WINDOW_WEBPACK_ENTRY: Path to load HTML/JS into the window via loadURL()
@@ -37,128 +37,122 @@ if (require("electron-squirrel-startup")) {
 }
 
 // =====================================================================
-// WINDOW CREATION AND SIZING
-// Implements responsive window sizing based on screen dimensions
+// WINDOW CREATION
+// Creates application window with fixed 800x600 dimensions
 // =====================================================================
 
 // Factory function that creates and initializes the application's main BrowserWindow
-// - Calculates appropriate initial window dimensions when function is run: prefers 65% of
-//   display's work area; but if minimum dimension threshold of 1024×768 pixels is met will use
-//   full work area when 65% display's work area would be smaller than minimum thresholds
+// - Creates a window with fixed 800x600 dimensions
 // - Uses a privileged initialization script (preload) that runs before renderer content
 //   to create a secure bridge for main process/renderer communication
 // - Loads the application's complete web content (HTML, JavaScript/TypeScript, CSS)
-//   using the provided path constant and always opens Chrome DevTools for debugging
-// Primary window creation function - used by application event handlers in this file
 const createWindow = (): void => {
-  // Minimum thresholds for initial window dimensions
-  // If 65% of screen would be smaller than these values,
-  // the window will use full screen dimensions instead
-  const MIN_INIT_THRESHOLD_WINDOW_WIDTH = 1024;
-  const MIN_INIT_THRESHOLD_WINDOW_HEIGHT = 768;
-
-  // Get available screen space from primary display
-  // Uses workAreaSize which excludes taskbars/docks for proper window placement and sizing
-  const primaryDisplay = screen.getPrimaryDisplay();
-  const { width: displayWorkAreaWidth, height: displayWorkAreaHeight } =
-    primaryDisplay.workAreaSize;
-
-  // Calculate potential window size as 65% of each screen dimension (height and width)
-  // This ratio should provide predictable and deterministic app startup behavior
-  // These ratio-based values will be evaluated against minimum thresholds before final sizing
-  const PREFERRED_DIMENSION_LENGTHS_RATIO = 0.65;
-  const ratioBasedPotentialInitWindowWidth = Math.round(
-    displayWorkAreaWidth * PREFERRED_DIMENSION_LENGTHS_RATIO
-  );
-  const ratioBasedPotentialInitWindowHeight = Math.round(
-    displayWorkAreaHeight * PREFERRED_DIMENSION_LENGTHS_RATIO
-  );
-
-  // Determine final window dimensions based on minimum thresholds
-  // Uses ratio-based dimensions when they're large enough, full screen otherwise
-  let finalWindowWidth, finalWindowHeight;
-  if (
-    ratioBasedPotentialInitWindowWidth < MIN_INIT_THRESHOLD_WINDOW_WIDTH ||
-    ratioBasedPotentialInitWindowHeight < MIN_INIT_THRESHOLD_WINDOW_HEIGHT
-  ) {
-    // Use full work area when ratio-based dimensions would be too small
-    finalWindowWidth = displayWorkAreaWidth;
-    finalWindowHeight = displayWorkAreaHeight;
-  } else {
-    // Use ratio-based dimensions when they exceed minimum thresholds
-    finalWindowWidth = ratioBasedPotentialInitWindowWidth;
-    finalWindowHeight = ratioBasedPotentialInitWindowHeight;
-  }
-
-  // Create browser window with previously determined dimensions and positions window in the
-  // center of display
-  const mainWindow = new BrowserWindow({
-    // Window dimensions based on our earlier calculations
-    width: finalWindowWidth,
-    height: finalWindowHeight,
-    // Position window in center of screen, to achieve predictable startup placement
-    center: true,
-    // Configure security for the application's user interface
-    webPreferences: {
-      // Use our preload script (path provided by Electron Forge at build time)
-      // This creates a secure bridge between the UI and system capabilities
-      // Referenced by MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY constant declared at the top of this file
-      preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
-    },
-  });
-
-  // Load the application's UI content into the mainWindow instance
-  // - mainWindow is the BrowserWindow we just created above
-  // - loadURL() is a BrowserWindow method that navigates the window to a URL
-  // - MAIN_WINDOW_WEBPACK_ENTRY points to our compiled frontend assets
-  // - This loads our src/index.html with bundled JavaScript/CSS
-  mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
-
-  // NOTE: DevTools can be accessed when needed using:
+  // DevTools can be accessed when needed using:
   // - Keyboard: Ctrl+Shift+I (Windows/Linux) or Cmd+Option+I (Mac)
   // - Programmatically: mainWindow.webContents.openDevTools()
   // - Menu: View > Developer > Developer Tools (when using default menu)
   // Not automatically opening DevTools provides a cleaner development experience
   // and better represents the actual user experience
 
-  // =====================================================================
-  // APPLICATION LIFECYCLE
-  // Event handlers for app startup, shutdown, and OS integration
-  // =====================================================================
+  try {
+    // Create browser window with fixed dimensions
+    const mainWindow = new BrowserWindow({
+      // Fixed window dimensions
+      width: 800,
+      height: 600,
+      // Position window in center of screen
+      center: true,
+      // Configure security for the application's user interface
+      webPreferences: {
+        // Use our preload script (path provided by Electron Forge at build time)
+        // This creates a secure bridge between the UI and system capabilities
+        preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
+      },
+    });
 
-  // Create window when Electron is ready to display UI
-  // - Process startup begins when user launches the application
-  // - Node.js initializes, then loads and executes this main script (index.ts)
-  // - As code executes, Electron begins initializing its internal modules
-  // - The 'ready' event fires when Electron completes this initialization
-  // - At that point, this handler calls createWindow() to create our UI
-  app.on("ready", createWindow);
+    // Load the application's UI content into the mainWindow instance
+    // - mainWindow is the BrowserWindow we just created above
+    // - loadURL() is a BrowserWindow method that navigates the window to a URL
+    // - MAIN_WINDOW_WEBPACK_ENTRY points to our compiled frontend assets
+    // - This loads our src/index.html with bundled JavaScript/CSS
+    mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
-  // Configure application behavior when all windows are closed
-  // - Registers an event listener that executes whenever the last window closes
-  // - This distinguishes between macOS ("darwin") and other platforms (Windows/Linux)
-  // - Non-macOS platforms: Application fully terminates when all windows close
-  // - macOS: Application remains running even with no windows (follows platform convention)
-  // - This event handler is registered during startup but only triggers when windows close
-  app.on("window-all-closed", () => {
-    // Exit application completely on non-macOS platforms (Windows/Linux)
-    // For macOS ("darwin"), the app stays running to follow platform conventions
-    if (process.platform !== "darwin") {
-      app.quit();
+  } catch (error) {
+    // Log the error to console for developers
+    console.error('Window creation error:', error);
+
+    // Show notification that we're using fallback settings
+    // This is primarily useful during development to catch issues
+    if (process.env.NODE_ENV === 'development') {
+      dialog.showMessageBox({
+        type: 'warning',
+        title: 'Using Fallback Settings',
+        message: 'The application encountered an issue during startup and is using fallback settings.',
+        detail: `This typically indicates a configuration problem that should be addressed. Error details: ${error.message}`,
+        buttons: ['Continue'],
+        defaultId: 0,
+      });
     }
-  });
 
-  // Handle macOS application activation events
-  // - The 'activate' event fires when the app icon is clicked in the dock
-  //   or when the app is re-launched while already running
-  // - Checks if application has any open windows (getAllWindows().length)
-  // - Creates a new window if none exist, providing a consistent macOS experience
-  // - Works with 'window-all-closed' to implement standard macOS app behavior
-  // - This pattern enables the app to be "reactivated" from the dock
-  app.on("activate", () => {
-    // Recreate application window if none exist when dock icon is clicked
-    if (BrowserWindow.getAllWindows().length === 0) {
-      createWindow();
+    try {
+      // Fallback window creation with the same dimensions
+      const mainWindow = new BrowserWindow({
+        width: 800,
+        height: 600,
+        webPreferences: {
+          preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
+        },
+      });
+      mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
+    } catch (criticalError) {
+      // Only at this point do we have a truly fatal error
+      console.error('Critical application failure:', criticalError);
+      dialog.showErrorBox(
+        'Unable to Start Application',
+        'The application encountered a critical error and cannot continue. Please try restarting the application. If this issue persists, please report it to the development team.'
+      );
+      app.exit(1); // Exit with error code
     }
-  });
+  }
 };
+
+// =====================================================================
+// APPLICATION LIFECYCLE
+// Event handlers for app startup, shutdown, and OS integration
+// =====================================================================
+
+// Create window when Electron is ready to display UI
+// - Process startup begins when user launches the application
+// - Node.js initializes, then loads and executes this main script (index.ts)
+// - As code executes, Electron begins initializing its internal modules
+// - The 'ready' event fires when Electron completes this initialization
+// - At that point, this handler calls createWindow() to create our UI
+app.on("ready", createWindow);
+
+// Configure application behavior when all windows are closed
+// - Registers an event listener that executes whenever the last window closes
+// - This distinguishes between macOS ("darwin") and other platforms (Windows/Linux)
+// - Non-macOS platforms: Application fully terminates when all windows close
+// - macOS: Application remains running even with no windows (follows platform convention)
+// - This event handler is registered during startup but only triggers when windows close
+app.on("window-all-closed", () => {
+  // Exit application completely on non-macOS platforms (Windows/Linux)
+  // For macOS ("darwin"), the app stays running to follow platform conventions
+  if (process.platform !== "darwin") {
+    app.quit();
+  }
+});
+
+// Handle macOS application activation events
+// - The 'activate' event fires when the app icon is clicked in the dock
+//   or when the app is re-launched while already running
+// - Checks if application has any open windows (getAllWindows().length)
+// - Creates a new window if none exist, providing a consistent macOS experience
+// - Works with 'window-all-closed' to implement standard macOS app behavior
+// - This pattern enables the app to be "reactivated" from the dock
+app.on("activate", () => {
+  // Recreate application window if none exist when dock icon is clicked
+  if (BrowserWindow.getAllWindows().length === 0) {
+    createWindow();
+  }
+});
