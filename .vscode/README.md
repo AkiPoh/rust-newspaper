@@ -12,7 +12,7 @@ This directory contains **VS Code** workspace configurations to streamline devel
     - [Code Formatting](#code-formatting)
     - [Debugging](#debugging)
     - [Troubleshooting](#troubleshooting)
-  - [REFERENCE-TABLE: Table of VS Code Configuration Files and Purposes](#reference-table-table-of-vs-code-configuration-files-and-purposes)
+  - [REFERENCE-TABLE: Table of `.vscode` Directory  Files and Purposes](#reference-table-table-of-vscode-directory--files-and-purposes)
   - [REFERENCE-TABLE: Table of Security Impact Ratings of Configuration Files](#reference-table-table-of-security-impact-ratings-of-configuration-files)
   - [REFERENCE: Philosophy Behind Our VS Code Configuration Choices](#reference-philosophy-behind-our-vs-code-configuration-choices)
   - [REFERENCE: Technical Details of Each Configuration File](#reference-technical-details-of-each-configuration-file)
@@ -59,7 +59,7 @@ If debugging fails to launch:
 3. Try selecting "Debug All Processes" configuration
 4. Check the Output panel (Ctrl+Shift+U) for error messages
 
-## REFERENCE-TABLE: Table of VS Code Configuration Files and Purposes
+## REFERENCE-TABLE: Table of `.vscode` Directory  Files and Purposes
 
 This directory contains VS Code configurations optimized for Electron Forge project development:
 
