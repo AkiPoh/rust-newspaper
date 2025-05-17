@@ -44,7 +44,7 @@ Target roadmap:
 1. Clone the repository
 
    ```Shell
-   git clone https://github.com/username/rust-newspaper.git
+   git clone https://github.com/AkiPoh/rust-newspaper.git
    cd rust-newspaper
    ```
 
