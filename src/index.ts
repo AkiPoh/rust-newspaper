@@ -19,7 +19,6 @@
 // - screen: Provides display metrics for responsive sizing
 import { app, BrowserWindow, screen } from "electron";
 
-
 // TypeScript declarations for constants injected at build time by Electron Forge
 // - MAIN_WINDOW_WEBPACK_ENTRY: Path to load HTML/JS into the window via loadURL()
 // - MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: Path to secure bridge script for main/renderer
@@ -52,39 +51,64 @@ if (require("electron-squirrel-startup")) {
 //   using the provided path constant and always opens Chrome DevTools for debugging
 // Primary window creation function - used by application event handlers in this file
 const createWindow = (): void => {
-  // Minimum acceptable dimensions for optimal UX
-  // Prevents UI elements from being too compressed on smaller screens
-  const MIN_WIDTH = 1024;  // Standard minimum width for complex UI
-  const MIN_HEIGHT = 768;  // Standard minimum height for complex UI
+  // Minimum thresholds for initial window dimensions
+  // If 65% of screen would be smaller than these values,
+  // the window will use full screen dimensions instead
+  const MIN_INIT_THRESHOLD_WINDOW_WIDTH = 1024;
+  const MIN_INIT_THRESHOLD_WINDOW_HEIGHT = 768;
 
-  // Get the primary display's work area dimensions
-  // Work area excludes taskbars/docks for more accurate sizing
+  // Get available screen space from primary display
+  // Uses workAreaSize which excludes taskbars/docks for proper window placement and sizing
   const primaryDisplay = screen.getPrimaryDisplay();
-  const { width, height } = primaryDisplay.workAreaSize;
+  const { width: displayWorkAreaWidth, height: displayWorkAreaHeight } =
+    primaryDisplay.workAreaSize;
 
-  // Calculate window size as 65% of screen dimensions
-  // Balances screen utilization with negative space for better UX
-  let windowWidth = Math.round(width * 0.65);
-  let windowHeight = Math.round(height * 0.65);
+  // Calculate potential window size as 65% of each screen dimension (height and width)
+  // This ratio should provide predictable and deterministic app startup behavior
+  // These ratio-based values will be evaluated against minimum thresholds before final sizing
+  const PREFERRED_DIMENSION_LENGTHS_RATIO = 0.65;
+  const ratioBasedPotentialInitWindowWidth = Math.round(
+    displayWorkAreaWidth * PREFERRED_DIMENSION_LENGTHS_RATIO
+  );
+  const ratioBasedPotentialInitWindowHeight = Math.round(
+    displayWorkAreaHeight * PREFERRED_DIMENSION_LENGTHS_RATIO
+  );
 
-  // Adaptive sizing logic for smaller displays
-  // Uses full screen when calculated size would be too small
-  if (windowWidth < MIN_WIDTH || windowHeight < MIN_HEIGHT) {
-    windowWidth = width;    // Use full width if below minimum threshold
-    windowHeight = height;  // Use full height if below minimum threshold
+  // Determine final window dimensions based on minimum thresholds
+  // Uses ratio-based dimensions when they're large enough, full screen otherwise
+  let finalWindowWidth, finalWindowHeight;
+
+  if (
+    ratioBasedPotentialInitWindowWidth < MIN_INIT_THRESHOLD_WINDOW_WIDTH ||
+    ratioBasedPotentialInitWindowHeight < MIN_INIT_THRESHOLD_WINDOW_HEIGHT
+  ) {
+    // Use full work area when ratio-based dimensions would be too small
+    finalWindowWidth = displayWorkAreaWidth;
+    finalWindowHeight = displayWorkAreaHeight;
+  } else {
+    // Use ratio-based dimensions when they exceed minimum thresholds
+    finalWindowWidth = ratioBasedPotentialInitWindowWidth;
+    finalWindowHeight = ratioBasedPotentialInitWindowHeight;
   }
 
-  // Create the browser window with responsive dimensions
-  // Configuration optimized for cross-platform consistency
-  const mainWindow = new BrowserWindow({
-    width: windowWidth,     // Dynamically calculated width
-    height: windowHeight,   // Dynamically calculated height
-    center: true,           // Center window on screen for better visibility
-    webPreferences: {
-      preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,  // Secure preload script
-      // Note: nodeIntegration defaults to false for security
-    },
-  });
+  // Create browser window with previously determined dimensions and positions window in the
+// center of display
+const mainWindow = new BrowserWindow({
+  // Window dimensions based on our earlier calculations
+  width: finalWindowWidth,
+  height: finalWindowHeight,
+
+  // Position window in center of screen, to achieve predictable startup placement
+  center: true,
+
+  // Configure security for the application's user interface
+  webPreferences: {
+    // Use our preload script (path provided by Electron Forge at build time)
+    // This creates a secure bridge between the UI and system capabilities
+    // Referenced by MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY constant declared at the top of this file
+    preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
+  },
+});
 
   // Load the app's entry point HTML
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
@@ -107,7 +131,7 @@ app.on("ready", createWindow);
 // Preserves macOS convention of keeping apps active when all windows close
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
-    app.quit();  // Fully exit on non-macOS platforms
+    app.quit(); // Fully exit on non-macOS platforms
   }
   // On macOS, application stays active until explicit Cmd+Q
 });
@@ -116,7 +140,7 @@ app.on("window-all-closed", () => {
 // Re-creates window when dock icon is clicked and no windows exist
 app.on("activate", () => {
   if (BrowserWindow.getAllWindows().length === 0) {
-    createWindow();  // Restore window when app is re-activated
+    createWindow(); // Restore window when app is re-activated
   }
 });
 
