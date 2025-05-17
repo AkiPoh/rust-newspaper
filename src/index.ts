@@ -23,8 +23,7 @@
 // Import Electron modules that operate within the main process
 // - app: Controls application lifecycle (startup, events, termination)
 // - BrowserWindow: Creates native browser windows to display content
-// - dialog: Provides native system dialogs, for doing things such as error messages
-import { app, BrowserWindow, dialog } from "electron";
+import { app, BrowserWindow } from "electron";
 
 // TypeScript declarations for constants injected at build time by Electron Forge
 // - MAIN_WINDOW_WEBPACK_ENTRY: Path to load HTML/JS into the window via loadURL()
@@ -54,142 +53,27 @@ if (require("electron-squirrel-startup")) {
 //   to create a secure bridge for main process/renderer communication
 // - Loads the application's complete web content (HTML, JavaScript/TypeScript, CSS)
 const createWindow = (): void => {
-  try {
-    // Create browser window with fixed dimensions
-    const mainWindow = new BrowserWindow({
-      // Fixed window dimensions
-      width: 800,
-      height: 600,
-      // Position window in center of screen
-      center: true,
-      // Configure security for the application's user interface
-      webPreferences: {
-        // Use our preload script (defined within APPLICATION INITIALIZATION section of
-        // this file)
-        // This creates a secure bridge between the UI and system capabilities
-        preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
-      },
-    });
+  // Create browser window with fixed dimensions
+  const mainWindow = new BrowserWindow({
+    // Fixed window dimensions
+    width: 800,
+    height: 600,
+    // Position window in center of screen
+    center: true,
+    // Configure security for the application's user interface
+    webPreferences: {
+      // Use our preload script (path provided by Electron Forge at build time)
+      // This creates a secure bridge between the UI and system capabilities
+      preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
+    },
+  });
 
-    // Load the application's UI content into the mainWindow instance that we just
-    // created above - without doing the following, the window would be empty
-    // - This loads our src/index.html with bundled JavaScript/CSS (our application UI)
-    // - MAIN_WINDOW_WEBPACK_ENTRY points to the webpack-compiled frontend assets
-    // - mainWindow.loadURL() is the BrowserWindow method that navigates to these assets
-    mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
-} catch (error) {
-    // [PROJECT: rust-newspaper | FILE: src/index.ts | FUNCTION: createWindow]
-    // Log the primary window creation error with source context
-    console.error("[src/index.ts:createWindow] Window creation error:", error);
-
-    dialog
-      .showMessageBox(null, {
-        type: "error",
-        title:
-          "Failed to Create Application Window; Aborting Application Startup",
-        message:
-          "The application couldn't start properly. Consider trying to restart your system if problem persists.",
-        detail:
-          "Advanced error diagnostics:\n" +
-          (error?.stack ||
-            error?.message ||
-            error.toString() ||
-            "Unknown error") +
-          "\n\nError location: src/index.ts:createWindow",
-        buttons: ["Close"],
-        defaultId: 0,
-        noLink: true,
-      })
-      .then(() => {
-        app.exit(1);
-      })
-      .catch((dialogError) => {
-        // Log the dialog failure with source context
-        console.error("[src/index.ts:createWindow] Failed to display error dialog:", dialogError);
-
-        // Attempt to show a more basic error popup as final fallback
-        try {
-          dialog.showErrorBox(
-            "Critical Application Error",
-            "The application failed to start and could not display detailed error information. Please check application logs for more details. [src/index.ts:createWindow]"
-          );
-        } catch (fallbackError) {
-          // Log complete UI notification failure
-          console.error("[src/index.ts:createWindow] Failed to display fallback error box:", fallbackError);
-        }
-
-        // Ensure application exits even if all dialogs fail
-        app.exit(1);
-      });
-  }
-};
-
-// Factory function that creates and initializes the application's main BrowserWindow
-// - Creates a window with fixed 800x600 dimensions, at the center of the display
-// - Uses a privileged initialization script (preload) that runs before renderer content
-//   to create a secure bridge for main process/renderer communication
-// - Loads the application's complete web content (HTML, JavaScript/TypeScript, CSS)
-const createWindow = (): void => {
-  try {
-    // Create browser window with fixed dimensions
-    const mainWindow = new BrowserWindow({
-      // Fixed window dimensions
-      width: 800,
-      height: 600,
-      // Position window in center of screen
-      center: true,
-      // Configure security for the application's user interface
-      webPreferences: {
-        // Use our preload script (path provided by Electron Forge at build time)
-        // This creates a secure bridge between the UI and system capabilities
-        preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
-      },
-    });
-
-    // Load the application's UI content into the mainWindow instance
-    // - mainWindow is the BrowserWindow we just created above
-    // - loadURL() is a BrowserWindow method that navigates the window to a URL
-    // - MAIN_WINDOW_WEBPACK_ENTRY points to our compiled frontend assets
-    // - This loads our src/index.html with bundled JavaScript/CSS
-    mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
-  } catch (error) {
-    // Log the error to console for developers
-    console.error("Window creation error:", error);
-
-    // Show notification that we're using fallback settings
-    // This is primarily useful during development to catch issues
-    if (process.env.NODE_ENV === "development") {
-      dialog.showMessageBox({
-        type: "warning",
-        title: "Using Fallback Settings",
-        message:
-          "The application encountered an issue during startup and is using fallback settings.",
-        detail: `This typically indicates a configuration problem that should be addressed. Error details: ${error.message}`,
-        buttons: ["Continue"],
-        defaultId: 0,
-      });
-    }
-
-    try {
-      // Fallback window creation with the same dimensions
-      const mainWindow = new BrowserWindow({
-        width: 800,
-        height: 600,
-        webPreferences: {
-          preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
-        },
-      });
-      mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
-    } catch (criticalError) {
-      // Only at this point do we have a truly fatal error
-      console.error("Critical application failure:", criticalError);
-      dialog.showErrorBox(
-        "Unable to Start Application",
-        "The application encountered a critical error and cannot continue. Please try restarting the application. If this issue persists, please report it to the development team."
-      );
-      app.exit(1); // Exit with error code
-    }
-  }
+  // Load the application's UI content into the mainWindow instance
+  // - mainWindow is the BrowserWindow we just created above
+  // - loadURL() is a BrowserWindow method that navigates the window to a URL
+  // - MAIN_WINDOW_WEBPACK_ENTRY points to our compiled frontend assets
+  // - This loads our src/index.html with bundled JavaScript/CSS
+  mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 };
 
 // =====================================================================
