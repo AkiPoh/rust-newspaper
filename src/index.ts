@@ -150,14 +150,13 @@ const createWindow = (): void => {
 
   // Handle macOS application activation events
   // - The 'activate' event fires when the app icon is clicked in the dock
-  //   or when the app is re-launched via Spotlight while already running
-  // - This is primarily relevant for macOS where apps can run without windows
-  // - When triggered, this checks if any windows exist (getAllWindows().length)
-  // - If no windows exist, it creates a new one using the createWindow() function
-  // - This complements the macOS-specific behavior in the 'window-all-closed' handler
+  //   or when the app is re-launched while already running
+  // - Checks if application has any open windows (getAllWindows().length)
+  // - Creates a new window if none exist, providing a consistent macOS experience
+  // - Works with 'window-all-closed' to implement standard macOS app behavior
+  // - This pattern enables the app to be "reactivated" from the dock
   app.on("activate", () => {
-    // Recreate application window if none exist
-    // This happens when clicking the dock icon after all windows were closed
+    // Recreate application window if none exist when dock icon is clicked
     if (BrowserWindow.getAllWindows().length === 0) {
       createWindow();
     }
