@@ -77,7 +77,6 @@ const createWindow = (): void => {
   // Determine final window dimensions based on minimum thresholds
   // Uses ratio-based dimensions when they're large enough, full screen otherwise
   let finalWindowWidth, finalWindowHeight;
-
   if (
     ratioBasedPotentialInitWindowWidth < MIN_INIT_THRESHOLD_WINDOW_WIDTH ||
     ratioBasedPotentialInitWindowHeight < MIN_INIT_THRESHOLD_WINDOW_HEIGHT
@@ -92,57 +91,75 @@ const createWindow = (): void => {
   }
 
   // Create browser window with previously determined dimensions and positions window in the
-// center of display
-const mainWindow = new BrowserWindow({
-  // Window dimensions based on our earlier calculations
-  width: finalWindowWidth,
-  height: finalWindowHeight,
+  // center of display
+  const mainWindow = new BrowserWindow({
+    // Window dimensions based on our earlier calculations
+    width: finalWindowWidth,
+    height: finalWindowHeight,
+    // Position window in center of screen, to achieve predictable startup placement
+    center: true,
+    // Configure security for the application's user interface
+    webPreferences: {
+      // Use our preload script (path provided by Electron Forge at build time)
+      // This creates a secure bridge between the UI and system capabilities
+      // Referenced by MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY constant declared at the top of this file
+      preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
+    },
+  });
 
-  // Position window in center of screen, to achieve predictable startup placement
-  center: true,
-
-  // Configure security for the application's user interface
-  webPreferences: {
-    // Use our preload script (path provided by Electron Forge at build time)
-    // This creates a secure bridge between the UI and system capabilities
-    // Referenced by MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY constant declared at the top of this file
-    preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
-  },
-});
-
-  // Load the app's entry point HTML
+  // Load the application's UI content into the mainWindow instance
+  // - mainWindow is the BrowserWindow we just created above
+  // - loadURL() is a BrowserWindow method that navigates the window to a URL
+  // - MAIN_WINDOW_WEBPACK_ENTRY points to our compiled frontend assets
+  // - This loads our src/index.html with bundled JavaScript/CSS
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
-  // Enable DevTools for development
-  // Consider making this conditional based on NODE_ENV
-  mainWindow.webContents.openDevTools();
+  // NOTE: DevTools can be accessed when needed using:
+  // - Keyboard: Ctrl+Shift+I (Windows/Linux) or Cmd+Option+I (Mac)
+  // - Programmatically: mainWindow.webContents.openDevTools()
+  // - Menu: View > Developer > Developer Tools (when using default menu)
+  // Not automatically opening DevTools provides a cleaner development experience
+  // and better represents the actual user experience
+
+  // =====================================================================
+  // APPLICATION LIFECYCLE
+  // Event handlers for app startup, shutdown, and OS integration
+  // =====================================================================
+
+  // Create window when Electron is ready to display UI
+  // - Process startup begins when user launches the application
+  // - Node.js initializes, then loads and executes this main script (index.ts)
+  // - As code executes, Electron begins initializing its internal modules
+  // - The 'ready' event fires when Electron completes this initialization
+  // - At that point, this handler calls createWindow() to create our UI
+  app.on("ready", createWindow);
+
+  // Configure application behavior when all windows are closed
+  // - Registers an event listener that executes whenever the last window closes
+  // - This distinguishes between macOS ("darwin") and other platforms (Windows/Linux)
+  // - Non-macOS platforms: Application fully terminates when all windows close
+  // - macOS: Application remains running even with no windows (follows platform convention)
+  // - This event handler is registered during startup but only triggers when windows close
+  app.on("window-all-closed", () => {
+    // Exit application completely on non-macOS platforms (Windows/Linux)
+    // For macOS ("darwin"), the app stays running to follow platform conventions
+    if (process.platform !== "darwin") {
+      app.quit();
+    }
+  });
+
+  // Handle macOS application activation events
+  // - The 'activate' event fires when the app icon is clicked in the dock
+  //   or when the app is re-launched via Spotlight while already running
+  // - This is primarily relevant for macOS where apps can run without windows
+  // - When triggered, this checks if any windows exist (getAllWindows().length)
+  // - If no windows exist, it creates a new one using the createWindow() function
+  // - This complements the macOS-specific behavior in the 'window-all-closed' handler
+  app.on("activate", () => {
+    // Recreate application window if none exist
+    // This happens when clicking the dock icon after all windows were closed
+    if (BrowserWindow.getAllWindows().length === 0) {
+      createWindow();
+    }
+  });
 };
-
-// =====================================================================
-// APPLICATION LIFECYCLE
-// Event handlers for app startup, shutdown, and OS integration
-// =====================================================================
-
-// Initialize window when Electron is ready
-// This is the main entry point for window creation
-app.on("ready", createWindow);
-
-// Platform-specific window closing behavior
-// Preserves macOS convention of keeping apps active when all windows close
-app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") {
-    app.quit(); // Fully exit on non-macOS platforms
-  }
-  // On macOS, application stays active until explicit Cmd+Q
-});
-
-// macOS-specific dock icon behavior
-// Re-creates window when dock icon is clicked and no windows exist
-app.on("activate", () => {
-  if (BrowserWindow.getAllWindows().length === 0) {
-    createWindow(); // Restore window when app is re-activated
-  }
-});
-
-// Additional main process code can be added below
-// For larger applications, consider modular imports from separate files
